@@ -1,6 +1,7 @@
 import Header from "../pages/Home/Header"
 import PopularSection from "../pages/Home/PopularSection"
 import RecentArtical from "../pages/Home/RecentArtical"
+import Special from "../pages/Home/Special"
 
 
 export const Main = () => {
@@ -9,6 +10,7 @@ export const Main = () => {
       <Header />
       <PopularSection />
       <RecentArtical />
+      <Special />
     </div>
   )
 }
