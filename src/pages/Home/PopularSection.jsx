@@ -43,7 +43,7 @@ export const PopularSection = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {articles.map((article) => (
-          <div key={article.id} className=" overflow-hidden">
+          <div key={article.id} className="overflow-hidden">
             <img src={article.image} alt={article.title} className="w-full h-70 object-cover rounded-t-lg rounded-b-lg" />
             <div className="p-4">
               <p className="text-sm text-gray-600 mb-2">By {article.author}</p>
