@@ -1,4 +1,3 @@
-import { ArrowLeft, ArrowRight } from "lucide-react"
 
 const articles = [
   {
@@ -32,14 +31,6 @@ export const PopularSection = () => {
      <div className="container mx-auto px-6 sm:px-10 lg:px-20 my-20">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-4xl font-bold text-purple-900">Most Popular</h2>
-        <div className="flex space-x-2">
-          <button className="p-2 rounded-full bg-gray-200 hover:bg-gray-300">
-            <ArrowLeft className="w-6 h-6 text-gray-600" />
-          </button>
-          <button className="p-2 rounded-full bg-gray-200 hover:bg-gray-300">
-            <ArrowRight className="w-6 h-6 text-gray-600" />
-          </button>
-        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {articles.map((article) => (
