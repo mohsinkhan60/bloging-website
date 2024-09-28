@@ -60,7 +60,7 @@ export const Testimonial = () => {
   ]
 
   return (
-    <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8 container mx-auto my-20">
+    <div className="bg-white py-16 px-4 sm:px-6 lg:px-8 container mx-auto my-20">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-xl font-semibold text-gray-600 text-center mb-2">Some Testimonial</h2>
         <h3 className="text-4xl font-bold text-gray-900 text-center mb-12">What People Say About Us</h3>
