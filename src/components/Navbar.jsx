@@ -34,8 +34,8 @@ export const Navbar = () => {
             <div className="flex space-x-4 list-none">
               <NavItem href="/">Home</NavItem>
               <NavItem href="/about">About</NavItem>
-              <NavItem href="/category">Category</NavItem>
               <NavItem href="/contact">Contact</NavItem>
+              <NavItem href="/category">Category</NavItem>
             </div>
           </div>
           <div className="hidden md:ml-6 md:flex md:items-center">
@@ -79,17 +79,18 @@ export const Navbar = () => {
             >
               About
             </a>
-            <a
-              href="/category"
-              className="text-white hover:hover:text-orange-300 block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Category
-            </a>
+
             <a
               href="/contact"
               className="text-white hover:hover:text-orange-300 block px-3 py-2 rounded-md text-base font-medium"
             >
               Contact
+            </a>
+            <a
+              href="/category"
+              className="text-white hover:hover:text-orange-300 block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Category
             </a>
           </div>
           <div className="pt-4 pb-3 border-t border-blue-800">

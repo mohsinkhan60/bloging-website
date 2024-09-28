@@ -3,6 +3,7 @@ import About from "./pages/About";
 import Home from "./pages/Home";
 import RootLayout from "./layouts/RootLayout";
 import AdminLayout from "./layouts/AdminLayout";
+import Contact from "./pages/Contact";
 
 export const App = () => {
   return (
@@ -12,6 +13,7 @@ export const App = () => {
         <Route path="/" element={<RootLayout />}>
           <Route index={true} element={<Home />} />
           <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
         </Route>
 
         {/* Admin Routes */}

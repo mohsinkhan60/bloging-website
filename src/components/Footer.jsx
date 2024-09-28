@@ -92,14 +92,14 @@ export const Footer = () =>{
             <input
               type="text"
               placeholder="Your Name"
-              className="w-full p-3 bg-indigo-800 rounded-md focus:outline-none focus:ring-2 focus:ring-coral-500"
+              className="w-full p-3 bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-coral-500"
             />
             <input
               type="email"
               placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 bg-indigo-800 rounded-md focus:outline-none focus:ring-2 focus:ring-coral-500"
+              className="w-full p-3 bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-coral-500"
             />
             <button
               type="submit"
