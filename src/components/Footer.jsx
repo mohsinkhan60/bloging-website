@@ -14,7 +14,7 @@ export const Footer = () =>{
   }
 
   return (
-    <footer className="bg-[#262C63] text-white py-12 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#22262A] text-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
         {/* Logo and Description */}
         <div className="lg:col-span-2">
