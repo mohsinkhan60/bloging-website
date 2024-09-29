@@ -1,11 +1,7 @@
-import { Outlet } from "react-router-dom"
-
+import { Navigate, Outlet } from "react-router-dom";
+import { auth } from "../../firebase";
 
 export const LoginLayout = () => {
-  return (
-    <div>
-      <Outlet />
-    </div>
-  )
-}
-export default LoginLayout
+  return auth ? <Navigate to="/" replace /> : <Outlet />;
+};
+export default LoginLayout;

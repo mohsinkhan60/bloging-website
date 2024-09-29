@@ -1,11 +1,26 @@
 import { useState } from "react";
 import { TERipple } from "tw-elements-react"; // Ensure this export exists in the library
+import { login, signup } from "../../firebase";
 
 export const Login = () => {
   const [signState, setSignState] = useState("Login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const user_auth = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (signState === "Login") {
+        await login(email, password);
+      } else {
+        await signup(name, email, password);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="h-full bg-neutral-200 dark:bg-neutral-700">
@@ -29,7 +44,7 @@ export const Login = () => {
                       </h4>
                     </div>
 
-                    <form>
+                    <form onSubmit={user_auth}>
                       <p className="mb-4 text-center">{signState}</p>
 
                       {/* Name input for Register only */}
@@ -61,6 +76,7 @@ export const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Enter password..."
                         className="mb-4 border p-2 w-full"
+                        required
                       />
 
                       {/* Submit button */}
@@ -72,7 +88,7 @@ export const Login = () => {
                               background:
                                 "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
                             }}
-                            type="button"
+                            type="submit" // Change to 'submit' for form submission
                           >
                             {signState}
                           </button>
