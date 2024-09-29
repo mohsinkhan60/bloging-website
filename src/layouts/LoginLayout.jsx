@@ -1,7 +1,22 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 
 export const LoginLayout = () => {
-  return auth ? <Navigate to="/" replace /> : <Outlet />;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        navigate("/");
+      } else {
+        navigate("/login");
+      }
+    });
+  });
+
+  return <Outlet />;
 };
+
 export default LoginLayout;

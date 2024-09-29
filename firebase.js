@@ -28,6 +28,7 @@ export const signup = async (name, email, password) => {
       uid: user.uid,
       name: name,
       email: email,
+      isAdmin: false,
     });
   } catch (error) {
     console.log(error);
@@ -36,14 +37,19 @@ export const signup = async (name, email, password) => {
 
 export const login = async (email, password) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const response = await signInWithEmailAndPassword(auth, email, password);
+    return response;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const logout = () => {
-  signOut(auth);
+export const logout = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default { auth, db, signup, login, logout };

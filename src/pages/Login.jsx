@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { TERipple } from "tw-elements-react"; // Ensure this export exists in the library
 import { login, signup } from "../../firebase";
 
 export const Login = () => {
@@ -81,18 +80,16 @@ export const Login = () => {
 
                       {/* Submit button */}
                       <div className="mb-12 pb-1 pt-1 text-center">
-                        <TERipple rippleColor="light" className="w-full">
-                          <button
-                            className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out"
-                            style={{
-                              background:
-                                "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
-                            }}
-                            type="submit" // Change to 'submit' for form submission
-                          >
-                            {signState}
-                          </button>
-                        </TERipple>
+                        <button
+                          className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out"
+                          style={{
+                            background:
+                              "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
+                          }}
+                          type="submit" // Change to 'submit' for form submission
+                        >
+                          {signState}
+                        </button>
                       </div>
 
                       {/* Toggle between Login and Register */}
@@ -102,21 +99,19 @@ export const Login = () => {
                             ? "Don't have an account?"
                             : "Already have an account?"}
                         </p>
-                        <TERipple rippleColor="light">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setSignState(
-                                signState === "Login" ? "Register" : "Login"
-                              )
-                            }
-                            className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs
+                        <button
+                          type="button" // Change to button to avoid form submission on toggle
+                          onClick={() =>
+                            setSignState(
+                              signState === "Login" ? "Register" : "Login"
+                            )
+                          }
+                          className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs
                              font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:bg-neutral-500
                               hover:bg-opacity-10 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                          >
-                            {signState === "Login" ? "Register" : "Login"}
-                          </button>
-                        </TERipple>
+                        >
+                          {signState === "Login" ? "Register" : "Login"}
+                        </button>
                       </div>
                     </form>
                   </div>
