@@ -39,7 +39,7 @@ export const SendMessage = () => {
             <div>
               <button
                 type="submit"
-                className="bg-orange-300 text-white px-6 py-2 rounded hover:bg-orange-400 transition-colors"
+                className="bg-[#ffc4a0] text-black font-medium px-6 py-4 rounded-lg hover:text-white transition-colors"
               >
                 Send Message →
               </button>

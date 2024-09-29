@@ -26,8 +26,8 @@ export const Navbar = () => {
           <div className="flex items-center">
             <a href="/" className="flex-shrink-0 flex items-center">
               <span className="ml-2 text-white text-xl font-bold">
-                <img src="/HomePic/nav.webp" alt="" />
-              </span>
+                <img src="/AboutPic/login1.webp" className="w-20 h-20 object-cover" alt="" />
+              </span> 
             </a>
           </div>
           <div className="hidden md:ml-6 md:flex md:items-center">
@@ -107,6 +107,7 @@ export const Navbar = () => {
           </div>
         </div>
       )}
+      <hr />
     </nav>
   );
 };

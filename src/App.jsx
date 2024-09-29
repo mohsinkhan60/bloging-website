@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import RootLayout from "./layouts/RootLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import Contact from "./pages/Contact";
+import Login from "./pages/Login";
+import LoginLayout from "./layouts/LoginLayout";
 
 export const App = () => {
   return (
@@ -14,6 +16,12 @@ export const App = () => {
           <Route index={true} element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="login" element={<Login />} />
+        </Route>
+
+        {/* Login */}
+        <Route path="/" element={<LoginLayout />}>
+          <Route path="login" index={true} element={<Login />} />
         </Route>
 
         {/* Admin Routes */}
