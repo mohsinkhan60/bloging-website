@@ -7,8 +7,8 @@ const teamMembers = [
   { id: 4, name: 'Olivia Grace', image: '/AboutPic/team-4.webp', bgColor: 'bg-gray-200' },
   { id: 5, name: 'Mia Rose Carter', image: '/AboutPic/team-5.webp', bgColor: 'bg-gray-200' },
   { id: 6, name: 'Sophia Elizabeth', image: '/AboutPic/team-6.webp', bgColor: 'bg-yellow-100' },
-  { id: 6, name: 'Isabella Marie', image: '/AboutPic/team-7.webp', bgColor: 'bg-yellow-100' },
-  { id: 6, name: 'Jane Robinson', image: '/AboutPic/team-8.webp', bgColor: 'bg-yellow-100' },
+  { id: 7, name: 'Isabella Marie', image: '/AboutPic/team-7.webp', bgColor: 'bg-yellow-100' },
+  { id: 8, name: 'Jane Robinson', image: '/AboutPic/team-8.webp', bgColor: 'bg-yellow-100' },
 ]
 
 export const Team = () => {

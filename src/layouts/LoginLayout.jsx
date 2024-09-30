@@ -14,7 +14,7 @@ export const LoginLayout = () => {
         navigate("/login");
       }
     });
-  });
+  }, [navigate]);
 
   return <Outlet />;
 };

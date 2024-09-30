@@ -48,7 +48,7 @@ export const logout = async () => {
   try {
     await signOut(auth);
   } catch (error) {
-    console.log(error);
+    console.log("Error during sign out:", error);
   }
 };
 

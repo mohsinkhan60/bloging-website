@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
+import { Bell, ChevronDown, Menu, User, X } from "lucide-react";
 import { useState } from "react";
-import { ChevronDown, Bell, User, Menu, X } from "lucide-react";
-import { logout } from "../../firebase";
 import { Link } from "react-router-dom";
+import { logout } from "../../firebase";
 
 const NavItem = ({ to, children, hasDropdown }) => (
   <li className="relative group">
@@ -21,11 +21,6 @@ const NavItem = ({ to, children, hasDropdown }) => (
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [profile, setProfile] = useState(false);
-
-  const profile_handler = (e) => {
-    e.preventDefault();
-    setProfile(!profile);
-  };
 
   return (
     <nav className="bg-gradient-to-r from-blue-900 to-purple-900 fixed top-0 w-full z-50">
@@ -55,24 +50,24 @@ export const Navbar = () => {
               <Bell className="h-6 w-6" />
               <span className="sr-only">View notifications</span>
             </button>
-
-            <button
-              onClick={profile_handler}
-              className="ml-3 p-1 rounded-full text-white hover:text-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-800 focus:ring-white relative"
-            >
-              <User className="h-6 w-6" />
-              <span className="sr-only">View profile</span>
+            <div className="relative">
+              <button
+                onClick={() => setProfile(!profile)}
+                className="ml-3 p-1 rounded-full text-white hover:text-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-800 focus:ring-white"
+              >
+                <User className="h-6 w-6" />
+                <span className="sr-only">View profile</span>
+              </button>
 
               {/* Profile Dropdown */}
               {profile && (
                 <div className="absolute right-0 mt-2 w-40 py-2 bg-white rounded-lg shadow-lg text-black">
-                  <Link
-                    to="/logout"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100"
-                    onClick={logout}
-                  >
-                    Logout
-                  </Link>
+                    <div
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+                      onClick={logout}
+                    >
+                      Logout
+                    </div>
                   <Link
                     to="/add-blog"
                     className="block px-4 py-2 text-sm hover:bg-gray-100"
@@ -81,7 +76,7 @@ export const Navbar = () => {
                   </Link>
                 </div>
               )}
-            </button>
+            </div>
           </div>
           <div className="-mr-2 flex items-center lg:hidden">
             <button
@@ -135,7 +130,7 @@ export const Navbar = () => {
                 <span className="sr-only">View notifications</span>
               </button>
               <button
-                onClick={profile_handler}
+                onClick={() => setProfile(!profile)}
                 className="ml-auto p-1 rounded-full text-white hover:text-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-800 focus:ring-white relative"
               >
                 <User className="h-6 w-6" />
