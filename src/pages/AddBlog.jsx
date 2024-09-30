@@ -4,6 +4,8 @@ import { useState } from "react";
 import { FaFolder, FaPlus, FaTags } from "react-icons/fa";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useNavigate } from "react-router-dom";
+import { handleCreateListing } from "../../firebase";
 
 const AddBlog = () => {
   const [formData, setFormData] = useState({
@@ -28,18 +30,34 @@ const AddBlog = () => {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
-  console.log(formData);
+  const handleContentChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      content: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { image, title, author, description, category, tags } = formData;
+    if (!image || !title || !author || !description) {
+      console.log("Please fill out all required fields.");
+      return;
+    }
+    await handleCreateListing(image, title, author, description, category, tags);
+  };
+
 
   return (
     <div className="container mx-auto p-4 pt-20 max-w-4xl">
-      <h1 className="text-3xl  font-bold mb-6">Add New Blog Post</h1>
-      <form className="space-y-6">
-        <div className="flex items-center justify-center  bg-white p-4">
+      <h1 className="text-3xl font-bold mb-6">Add New Blog Post</h1>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="flex items-center justify-center bg-white p-4">
           {formData.image ? (
             <img
               src={URL.createObjectURL(formData.image)}
-              alt=""
-              className="w-80 max-w-md h-64"
+              alt="Uploaded Preview"
+              className="w-80 max-w-md h-64 object-cover p-2 border "
             />
           ) : (
             <div
@@ -55,18 +73,13 @@ const AddBlog = () => {
               <p className="text-lg font-semibold text-gray-700 mb-2">
                 Drag your image here, or Browse
               </p>
-              <p className="text-sm text-gray-500">
-                Support JPG, PNG, JPEG files
-              </p>
+              <p className="text-sm text-gray-500">Support JPG, PNG, JPEG files</p>
             </div>
           )}
         </div>
 
         <div>
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
             Title
           </label>
           <input
@@ -80,10 +93,7 @@ const AddBlog = () => {
           />
         </div>
         <div>
-          <label
-            htmlFor="auth"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-1">
             Author
           </label>
           <input
@@ -92,15 +102,12 @@ const AddBlog = () => {
             value={formData.author}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            placeholder="Enter auth"
+            placeholder="Enter author"
             required
           />
         </div>
         <div>
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
             Description
           </label>
           <textarea
@@ -116,10 +123,7 @@ const AddBlog = () => {
 
         <div className="flex space-x-4">
           <div className="flex-1">
-            <label
-              htmlFor="category"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
               <FaFolder className="inline mr-2" />
               Category
             </label>
@@ -133,10 +137,7 @@ const AddBlog = () => {
             />
           </div>
           <div className="flex-1">
-            <label
-              htmlFor="tags"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
               <FaTags className="inline mr-2" />
               Tags
             </label>
@@ -152,13 +153,15 @@ const AddBlog = () => {
         </div>
 
         <div>
-          <label
-            htmlFor="content"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
             Content
           </label>
-          <ReactQuill theme="snow" className="h-64 mb-12" />
+          <ReactQuill
+            theme="snow"
+            value={formData.content}
+            onChange={handleContentChange}
+            className="h-64 mb-12"
+          />
         </div>
 
         <div>

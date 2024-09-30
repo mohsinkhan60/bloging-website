@@ -69,6 +69,7 @@ export const Navbar = () => {
                       Logout
                     </div>
                   <Link
+                  onClick={() => setProfile(!profile)}  
                     to="/add-blog"
                     className="block px-4 py-2 text-sm hover:bg-gray-100"
                   >
