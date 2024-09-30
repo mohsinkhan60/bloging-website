@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { handleCreateListing } from "../../firebase";
 
 const AddBlog = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -164,7 +165,7 @@ const AddBlog = () => {
           />
         </div>
 
-        <div>
+        <div onClick={() => navigate("/")}>
           <button
             type="submit"
             className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
