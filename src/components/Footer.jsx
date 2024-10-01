@@ -1,17 +1,18 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { FaFacebookF, FaSkype, FaTwitter, FaLinkedinIn } from 'react-icons/fa'
+import { useState } from "react";
+import { FaFacebookF, FaSkype, FaTwitter, FaLinkedinIn } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-export const Footer = () =>{
-  const [email, setEmail] = useState('')
+export const Footer = () => {
+  const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle subscription logic here
-    console.log('Subscribed:', email)
-    setEmail('')
-  }
+    console.log("Subscribed:", email);
+    setEmail("");
+  };
 
   return (
     <footer className="bg-[#22262A] text-white py-12 px-4 sm:px-6 lg:px-8">
@@ -22,19 +23,32 @@ export const Footer = () =>{
             <img src="/HomePic/nav.webp" alt="" />
           </h2>
           <p className="mb-6">
-            Lorem Ipsum is simply dummy text of the industry orem Ipsum has been the industry since the when unknown.
+            Lorem Ipsum is simply dummy text of the industry orem Ipsum has been
+            the industry since the when unknown.
           </p>
           <div className="flex space-x-4 mb-6">
-            <a href="#" className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700">
+            <a
+              href="#"
+              className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700"
+            >
               <FaFacebookF />
             </a>
-            <a href="#" className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700">
+            <a
+              href="#"
+              className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700"
+            >
               <FaSkype />
             </a>
-            <a href="#" className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700">
+            <a
+              href="#"
+              className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700"
+            >
               <FaTwitter />
             </a>
-            <a href="#" className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700">
+            <a
+              href="#"
+              className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700"
+            >
               <FaLinkedinIn />
             </a>
           </div>
@@ -47,9 +61,18 @@ export const Footer = () =>{
         <div>
           <h3 className="text-xl font-semibold mb-4">Company</h3>
           <ul className="space-y-2">
-            {['About Us', 'Contact Us', 'Local Print Ads', "FAQ's", 'Careers'].map((item) => (
+            {[
+              "About Us",
+              "Contact Us",
+              "Local Print Ads",
+              "FAQ's",
+              "Careers",
+            ].map((item) => (
               <li key={item}>
-                <a href="#" className="hover:text-coral-500 transition duration-300">
+                <a
+                  href="#"
+                  className="hover:text-coral-500 transition duration-300"
+                >
                   {item}
                 </a>
               </li>
@@ -61,9 +84,18 @@ export const Footer = () =>{
         <div>
           <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2">
-            {['Privacy Policy', 'Discussion', 'Terms & Conditions', 'Customer Support', "Course FAQ's"].map((item) => (
+            {[
+              "Privacy Policy",
+              "Discussion",
+              "Terms & Conditions",
+              "Customer Support",
+              "Course FAQ's",
+            ].map((item) => (
               <li key={item}>
-                <a href="#" className="hover:text-coral-500 transition duration-300">
+                <a
+                  href="#"
+                  className="hover:text-coral-500 transition duration-300"
+                >
                   {item}
                 </a>
               </li>
@@ -75,9 +107,18 @@ export const Footer = () =>{
         <div>
           <h3 className="text-xl font-semibold mb-4">Category</h3>
           <ul className="space-y-2">
-            {['Life Style', 'Healthy', 'Resaurent', 'Travel Tips', "Marketing"].map((item) => (
+            {[
+              "Life Style",
+              "Healthy",
+              "Resaurent",
+              "Travel Tips",
+              "Marketing",
+            ].map((item) => (
               <li key={item}>
-                <a href="#" className="hover:text-coral-500 transition duration-300">
+                <a
+                  href="#"
+                  className="hover:text-coral-500 transition duration-300"
+                >
                   {item}
                 </a>
               </li>
@@ -113,16 +154,20 @@ export const Footer = () =>{
 
       {/* Copyright */}
       <div className="mt-12 pt-8 border-indigo-800 text-center">
-        <hr className='mb-8' />
+        <hr className="mb-8" />
         <p>
-          © 2024 Bunzo . Made with ❤️ by{' '}
-          <a href="#" className="text-coral-500 hover:underline">
-            HasThemes
-          </a>
+          © copyright {new Date().getFullYear()}. Made with ❤️ by{" "}
+          <Link
+            to="https://github.com/mohsinkhan60"
+            target="_blank"
+            className="text-coral-500 hover:underline"
+          >
+            Mohsin Khan
+          </Link>
         </p>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

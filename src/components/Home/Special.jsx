@@ -27,13 +27,13 @@ export const Special = () => {
    <>
    <div className="container mx-auto px-6 sm:px-10 lg:px-20 my-20">
       <h2 className="text-4xl font-bold text-indigo-900 text-center mb-10 flex ">Special For Beginner</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         {/* Left side - Image */}
         <div>
           <img
             src="/HomePic/special1.webp"
             alt="Special for beginner"
-            className="rounded-lg w-full object-cover"
+            className="rounded-lg w-full object-cover max-h-96"
           />
         </div>
 

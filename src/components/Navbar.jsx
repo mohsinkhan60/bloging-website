@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { logout } from "../../firebase";
 
 const NavItem = ({ to, children, hasDropdown }) => (
-  <li className="relative group">
+  <li className="relative group list-none">
     <Link
       to={to}
       className="text-white hover:text-orange-300 flex items-center px-3 py-2"
@@ -38,7 +38,7 @@ export const Navbar = () => {
             </Link>
           </div>
           <div className="hidden md:ml-6 md:flex md:items-center">
-            <div className="flex space-x-4 list-none">
+            <div className="flex space-x-4">
               <NavItem to="/">Home</NavItem>
               <NavItem to="/about">About</NavItem>
               <NavItem to="/contact">Contact</NavItem>
@@ -62,14 +62,14 @@ export const Navbar = () => {
               {/* Profile Dropdown */}
               {profile && (
                 <div className="absolute right-0 mt-2 w-40 py-2 bg-white rounded-lg shadow-lg text-black">
-                    <div
-                      className="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
-                      onClick={logout}
-                    >
-                      Logout
-                    </div>
+                  <div
+                    className="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+                    onClick={logout}
+                  >
+                    Logout
+                  </div>
                   <Link
-                  onClick={() => setProfile(!profile)}  
+                    onClick={() => setProfile(!profile)}
                     to="/add-blog"
                     className="block px-4 py-2 text-sm hover:bg-gray-100"
                   >

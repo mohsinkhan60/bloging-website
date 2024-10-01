@@ -1,12 +1,20 @@
 /* eslint-disable no-unused-vars */
 import { UploadCloudIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaFolder, FaPlus, FaTags } from "react-icons/fa";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { handleCreateListing } from "../../firebase";
+import firebase, {
+  db,
+  handleCreateListing,
+  updateUserData,
+} from "../../firebase";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddBlog = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -17,7 +25,24 @@ const AddBlog = () => {
     content: "",
   });
 
-  console.log(formData);
+  useEffect(() => {
+    const getBlogDetails = async () => {
+      const response = await updateUserData(id);
+
+      setFormData({
+        ...formData,
+        // image: response?.imageURL || "",
+        title: response?.title || "",
+        author: response?.author || "",
+        description: response?.description || "",
+        category: response?.category || "",
+        tags: response?.tags || "",
+        content: response?.content || "",
+      });
+    };
+    getBlogDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, setFormData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,9 +65,9 @@ const AddBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { image, title, author, description, category, tags } = formData;
+    const { image, title, author, description, category, tags, content } =
+      formData;
     if (!image || !title || !author || !description) {
-      console.log("Please fill out all required fields.");
       return;
     }
     await handleCreateListing(
@@ -51,18 +76,26 @@ const AddBlog = () => {
       author,
       description,
       category,
-      tags
+      tags,
+      content
     );
+    navigate("/");
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const { title, author, description, category, tags, content } = formData;
+    navigate("/");
   };
 
   return (
     <div className="container mx-auto p-4 pt-20 max-w-4xl">
       <h1 className="text-3xl font-bold mb-6">Add New Blog Post</h1>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={id ? handleEdit : handleSubmit} className="space-y-6">
         <div className="flex items-center justify-center bg-white p-4">
           {formData.image ? (
             <img
-              src={URL.createObjectURL(formData.image)}
+              src={URL.createObjectURL(formData?.image)}
               alt="Uploaded Preview"
               className="w-80 max-w-md h-64 object-cover p-2 border "
             />
@@ -197,7 +230,7 @@ const AddBlog = () => {
             className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             <FaPlus className="mr-2" />
-            Publish Blog Post
+            {id ? "Edit" : "Publish"} Blog Post
           </button>
         </div>
       </form>

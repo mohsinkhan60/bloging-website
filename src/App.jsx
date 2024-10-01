@@ -18,6 +18,7 @@ export const App = () => {
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
           <Route path="add-blog" element={<AddBlog />} />
+          <Route path="edit-blog/:id" element={<AddBlog />} />
           <Route path="blog/details/:id" element={<UserDetails />} />
         </Route>
 

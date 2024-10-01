@@ -1,13 +1,15 @@
+// import { getAuth, deleteUser as firebaseDeleteUser } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
-  getAuth,
   signInWithEmailAndPassword,
+  getAuth,
   signOut,
 } from "firebase/auth";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -73,7 +75,8 @@ export const handleCreateListing = async (
   author,
   description,
   category,
-  tags
+  tags,
+  content
 ) => {
   try {
     const imageRef = ref(storage, `uploads/images/${Date.now()}-${image.name}`);
@@ -86,6 +89,7 @@ export const handleCreateListing = async (
       category,
       tags,
       imageURL: uploadResults.ref.fullPath,
+      content,
     });
 
     console.log("Listing created successfully with image:", imageURL);
@@ -106,6 +110,30 @@ export const getUserById = async (id) => {
   const docRef = doc(db, "user", id);
   const result = await getDoc(docRef);
   return result;
+};
+
+export const deleteUserData = async (uid) => {
+  try {
+    await deleteDoc(doc(db, "user", uid));
+  } catch (error) {
+    console.error("Error deleting user data from Firestore:", error);
+  }
+};
+
+export const deleteUser = async (uid) => {
+  await deleteUserData(uid);
+};
+
+export const updateUserData = async (uid) => {
+  const docRef = doc(db, "user", uid);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    return data;
+  } else {
+    console.log("No such document!");
+  }
 };
 
 export default { auth, db, signup, login, logout };
