@@ -62,12 +62,6 @@ export const Navbar = () => {
               {/* Profile Dropdown */}
               {profile && (
                 <div className="absolute right-0 mt-2 w-40 py-2 bg-white rounded-lg shadow-lg text-black">
-                  <div
-                    className="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
-                    onClick={logout}
-                  >
-                    Logout
-                  </div>
                   <Link
                     onClick={() => setProfile(!profile)}
                     to="/add-blog"
@@ -75,6 +69,12 @@ export const Navbar = () => {
                   >
                     Add Blog
                   </Link>
+                  <button
+                    className="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer w-full text-left"
+                    onClick={logout}
+                  >
+                    Logout
+                  </button>
                 </div>
               )}
             </div>

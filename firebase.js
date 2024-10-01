@@ -2,8 +2,8 @@
 import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   getAuth,
+  signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import {
@@ -15,7 +15,7 @@ import {
   getDocs,
   getFirestore,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -98,7 +98,7 @@ export const handleCreateListing = async (
   }
 };
 
-export const listAllUsers = () => {
+export const getPopularBlogs = () => {
   return getDocs(collection(db, "user"));
 };
 

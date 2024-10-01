@@ -31,7 +31,7 @@ export const Special = () => {
         {/* Left side - Image */}
         <div>
           <img
-            src="/HomePic/special1.webp"
+            src="/HomePic/Recent1.webp"
             alt="Special for beginner"
             className="rounded-lg w-full object-cover max-h-96"
           />

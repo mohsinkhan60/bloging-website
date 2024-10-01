@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { listAllUsers } from "../../../firebase";
+import { getPopularBlogs } from "../../../firebase";
 import ArticalCard from "./ArticalCard";
 
 export const RecentArticle = () => {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    listAllUsers()
+    getPopularBlogs()
       .then((articles) => {
         if (articles) {
           setArticles(articles.docs);
