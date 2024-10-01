@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { listAllUsers } from "../../../firebase";
 import ArticalCard from "./ArticalCard";
 
-export const RecentArtical = () => {
-  const [articles, setArticals] = useState([]);
+export const RecentArticle = () => {
+  const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    listAllUsers().then((articles) => {
-      if (articles) {
-        setArticals(articles.docs);
-      } else {
-        console.log("No articles found or an error occurred.");
-      }
-    });
+    listAllUsers()
+      .then((articles) => {
+        if (articles) {
+          setArticles(articles.docs);
+        } else {
+          console.log("No articles found or an error occurred.");
+        }
+      })
+      .catch((error) => console.error("Error fetching articles:", error));
   }, []);
 
   return (
@@ -43,4 +45,4 @@ export const RecentArtical = () => {
   );
 };
 
-export default RecentArtical;
+export default RecentArticle;

@@ -5,7 +5,14 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+} from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Firebase configuration
@@ -60,7 +67,14 @@ export const logout = async () => {
 };
 
 // Function to handle creating a listing
-export const handleCreateListing = async (image, title, author, description, category, tags) => {
+export const handleCreateListing = async (
+  image,
+  title,
+  author,
+  description,
+  category,
+  tags
+) => {
   try {
     const imageRef = ref(storage, `uploads/images/${Date.now()}-${image.name}`);
     const uploadResults = await uploadBytes(imageRef, image);
@@ -71,7 +85,7 @@ export const handleCreateListing = async (image, title, author, description, cat
       description,
       category,
       tags,
-      imageURL: uploadResults.ref.fullPath, 
+      imageURL: uploadResults.ref.fullPath,
     });
 
     console.log("Listing created successfully with image:", imageURL);
@@ -81,10 +95,17 @@ export const handleCreateListing = async (image, title, author, description, cat
 };
 
 export const listAllUsers = () => {
-  return getDocs(collection(db, "user"))
-}
+  return getDocs(collection(db, "user"));
+};
+
 export const getImageURL = (path) => {
-  return getDownloadURL(ref(storage, path))
-}
+  return getDownloadURL(ref(storage, path));
+};
+
+export const getUserById = async (id) => {
+  const docRef = doc(db, "user", id);
+  const result = await getDoc(docRef);
+  return result;
+};
 
 export default { auth, db, signup, login, logout };

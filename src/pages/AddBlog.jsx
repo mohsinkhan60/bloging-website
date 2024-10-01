@@ -4,11 +4,9 @@ import { useState } from "react";
 import { FaFolder, FaPlus, FaTags } from "react-icons/fa";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useNavigate } from "react-router-dom";
 import { handleCreateListing } from "../../firebase";
 
 const AddBlog = () => {
-  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -18,6 +16,8 @@ const AddBlog = () => {
     tags: "",
     content: "",
   });
+
+  console.log(formData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,9 +45,15 @@ const AddBlog = () => {
       console.log("Please fill out all required fields.");
       return;
     }
-    await handleCreateListing(image, title, author, description, category, tags);
+    await handleCreateListing(
+      image,
+      title,
+      author,
+      description,
+      category,
+      tags
+    );
   };
-
 
   return (
     <div className="container mx-auto p-4 pt-20 max-w-4xl">
@@ -74,13 +80,18 @@ const AddBlog = () => {
               <p className="text-lg font-semibold text-gray-700 mb-2">
                 Drag your image here, or Browse
               </p>
-              <p className="text-sm text-gray-500">Support JPG, PNG, JPEG files</p>
+              <p className="text-sm text-gray-500">
+                Support JPG, PNG, JPEG files
+              </p>
             </div>
           )}
         </div>
 
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Title
           </label>
           <input
@@ -94,7 +105,10 @@ const AddBlog = () => {
           />
         </div>
         <div>
-          <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="author"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Author
           </label>
           <input
@@ -108,7 +122,10 @@ const AddBlog = () => {
           />
         </div>
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Description
           </label>
           <textarea
@@ -124,7 +141,10 @@ const AddBlog = () => {
 
         <div className="flex space-x-4">
           <div className="flex-1">
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               <FaFolder className="inline mr-2" />
               Category
             </label>
@@ -138,7 +158,10 @@ const AddBlog = () => {
             />
           </div>
           <div className="flex-1">
-            <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="tags"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               <FaTags className="inline mr-2" />
               Tags
             </label>
@@ -154,7 +177,10 @@ const AddBlog = () => {
         </div>
 
         <div>
-          <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Content
           </label>
           <ReactQuill
@@ -165,7 +191,7 @@ const AddBlog = () => {
           />
         </div>
 
-        <div onClick={() => navigate("/")}>
+        <div>
           <button
             type="submit"
             className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
