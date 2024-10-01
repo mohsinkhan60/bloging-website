@@ -23,6 +23,7 @@ const AddBlog = () => {
     category: "",
     tags: "",
     content: "",
+    date: Date.now(),
   });
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const AddBlog = () => {
         category: response?.category || "",
         tags: response?.tags || "",
         content: response?.content || "",
+        date: Date.now(),
       });
     };
     getBlogDetails();
@@ -65,7 +67,7 @@ const AddBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { image, title, author, description, category, tags, content } =
+    const { image, title, author, description, category, tags, content, date } =
       formData;
     if (!image || !title || !author || !description) {
       return;
@@ -77,7 +79,8 @@ const AddBlog = () => {
       description,
       category,
       tags,
-      content
+      content,
+      date
     );
     navigate("/");
   };

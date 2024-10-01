@@ -14,6 +14,8 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  limit,
+  orderBy,
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
@@ -76,7 +78,8 @@ export const handleCreateListing = async (
   description,
   category,
   tags,
-  content
+  content,
+  date
 ) => {
   try {
     const imageRef = ref(storage, `uploads/images/${Date.now()}-${image.name}`);
@@ -90,6 +93,7 @@ export const handleCreateListing = async (
       tags,
       imageURL: uploadResults.ref.fullPath,
       content,
+      date,
     });
 
     console.log("Listing created successfully with image:", imageURL);
@@ -100,6 +104,10 @@ export const handleCreateListing = async (
 
 export const getPopularBlogs = () => {
   return getDocs(collection(db, "user"));
+};
+
+export const getRecentBlogs = () => {
+  return getDocs(collection(db, "user"), orderBy("date", "asc"), limit(6));
 };
 
 export const getImageURL = (path) => {
