@@ -42,7 +42,7 @@ export const Navbar = () => {
               <NavItem to="/">Home</NavItem>
               <NavItem to="/about">About</NavItem>
               <NavItem to="/contact">Contact</NavItem>
-              <NavItem to="/category">Category</NavItem>
+              <NavItem to="/all-blogs">All Blogs</NavItem>
             </div>
           </div>
           <div className="hidden md:ml-6 md:flex md:items-center relative">
@@ -118,10 +118,10 @@ export const Navbar = () => {
               Contact
             </Link>
             <Link
-              to="/category"
+              to="/all-blogs"
               className="text-white hover:text-orange-300 block px-3 py-2 rounded-md text-base font-medium"
             >
-              Category
+              All Blogs
             </Link>
           </div>
           <div className="pt-4 pb-3 border-t border-blue-800">

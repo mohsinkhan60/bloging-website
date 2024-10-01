@@ -7,6 +7,7 @@ import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import UserDetails from "./pages/UserDetails";
+import AllBlogs from "./pages/AllBlogs";
 
 export const App = () => {
   return (
@@ -20,6 +21,7 @@ export const App = () => {
           <Route path="add-blog" element={<AddBlog />} />
           <Route path="edit-blog/:id" element={<AddBlog />} />
           <Route path="blog/details/:id" element={<UserDetails />} />
+          <Route path="all-blogs" element={<AllBlogs />} />
         </Route>
 
         {/* Login */}
