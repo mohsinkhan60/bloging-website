@@ -5,6 +5,7 @@ import { FaFolder, FaPlus, FaTags } from "react-icons/fa";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import firebase, {
+  auth,
   db,
   getImageURL,
   handleCreateListing,
@@ -102,7 +103,7 @@ const AddBlog = () => {
   return (
     <div className="container mx-auto p-4 pt-20 max-w-4xl">
       <h1 className="text-3xl font-bold mb-6">Add New Blog Post</h1>
-      <form onSubmit={id ? handleEdit : handleSubmit} className="space-y-6">
+      <form className="space-y-6">
         <div className="flex items-center justify-center bg-white p-4 relative w-80 max-w-md h-64 mx-auto">
           <input
             type="file"
@@ -241,7 +242,14 @@ const AddBlog = () => {
 
         <div>
           <button
-            type="submit"
+            type="button"
+            onClick={
+              auth.currentUser?.uid !== import.meta.env.VITE_ADMIN
+                ? () => alert("Feature is disabled in demo")
+                : id
+                ? handleEdit
+                : handleSubmit
+            }
             className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             <FaPlus className="mr-2" />

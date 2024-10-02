@@ -40,13 +40,7 @@ export const storage = getStorage(app);
 export const signup = async (name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    await addDoc(collection(db, "user"), {
-      uid: user.uid,
-      name: name,
-      email: email,
-      isAdmin: false,
-    });
+    return res;
   } catch (error) {
     console.log(error);
   }
@@ -67,7 +61,7 @@ export const logout = async () => {
   try {
     await signOut(auth);
   } catch (error) {
-    console.log("Error during sign out:", error);
+    console.log("Error during sign out...");
   }
 };
 
@@ -85,7 +79,6 @@ export const handleCreateListing = async (
   try {
     const imageRef = ref(storage, `uploads/images/${Date.now()}-${image.name}`);
     const uploadResults = await uploadBytes(imageRef, image);
-    const imageURL = await getDownloadURL(uploadResults.ref);
     await addDoc(collection(db, "user"), {
       title,
       author,
@@ -96,8 +89,6 @@ export const handleCreateListing = async (
       content,
       date,
     });
-
-    console.log("Listing created successfully with image:", imageURL);
   } catch (error) {
     console.error("Error creating listing:", error);
   }
@@ -152,13 +143,11 @@ export const updateBlogPost = async (id, updatedData) => {
       `uploads/images/${Date.now()}-${updatedData?.image.name}`
     );
     const uploadResults = await uploadBytes(imageRef, updatedData?.image);
-    const imageURL = await getDownloadURL(uploadResults.ref);
     const blogRef = doc(db, "user", id);
     await updateDoc(blogRef, {
       ...updatedData,
       image: uploadResults.ref.fullPath,
     });
-    console.log(imageURL);
   } catch (error) {
     console.error(error);
   }

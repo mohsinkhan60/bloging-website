@@ -3,8 +3,7 @@
 export const SubscribeButton = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted')
+    alert('Form submitted')
   }
 
   return (

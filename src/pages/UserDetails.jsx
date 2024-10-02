@@ -1,7 +1,7 @@
 import { PencilLineIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { deleteUserData, getImageURL, getUserById } from "../../firebase";
+import { auth, deleteUserData, getImageURL, getUserById } from "../../firebase";
 
 export const UserDetails = () => {
   const param = useParams();
@@ -41,11 +41,18 @@ export const UserDetails = () => {
         <div className="w-full xl:w-1/2">
           <div className="flex items-start flex-col sm:flex-row justify-between gap-3 sm:gap-5">
             <h1 className="text-xl md:text-3xl font-bold mb-4">{data.title}</h1>
+
             <div className="flex items-center cursor-pointer gap-2 ml-auto">
               <Link to={`/edit-blog/${param?.id}`}>
                 <PencilLineIcon />
               </Link>
-              <Trash2Icon onClick={handleDelete} />
+              <Trash2Icon
+                onClick={
+                  auth.currentUser?.uid !== import.meta.env.VITE_ADMIN
+                    ? () => alert("Feature is disabled in demo")
+                    : handleDelete
+                }
+              />
             </div>
           </div>
 

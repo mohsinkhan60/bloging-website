@@ -4,8 +4,8 @@ import { login, signup } from "../../firebase";
 export const Login = () => {
   const [signState, setSignState] = useState("Login");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("demo@gmail.com" || "");
+  const [password, setPassword] = useState("123456" || "");
 
   const user_auth = async (e) => {
     e.preventDefault();

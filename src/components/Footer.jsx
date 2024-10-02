@@ -9,8 +9,6 @@ export const Footer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle subscription logic here
-    console.log("Subscribed:", email);
     setEmail("");
   };
 
