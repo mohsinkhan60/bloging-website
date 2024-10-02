@@ -16,6 +16,7 @@ import {
   getFirestore,
   limit,
   orderBy,
+  updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
@@ -141,6 +142,15 @@ export const updateUserData = async (uid) => {
     return data;
   } else {
     console.log("No such document!");
+  }
+};
+
+export const updateBlogPost = async (id, updatedData) => {
+  try {
+    const blogRef = doc(db, "user", id); 
+    await updateDoc(blogRef, updatedData);
+  } catch (error) {
+    console.error(error);
   }
 };
 

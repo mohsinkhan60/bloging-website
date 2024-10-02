@@ -7,9 +7,12 @@ import "react-quill/dist/quill.snow.css";
 import firebase, {
   db,
   handleCreateListing,
+  storage,
+  updateBlogPost,
   updateUserData,
 } from "../../firebase";
 import { useNavigate, useParams } from "react-router-dom";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const AddBlog = () => {
   const navigate = useNavigate();
@@ -87,9 +90,21 @@ const AddBlog = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    const { title, author, description, category, tags, content } = formData;
+    const { image, title, author, description, category, tags, content, date } = formData;
+  
+    const updatedData = {
+      title,
+      author,
+      description,
+      category,
+      tags,
+      content,
+      date: Date.now(),
+    };
+    await updateBlogPost(id, updatedData);
     navigate("/");
   };
+  
 
   return (
     <div className="container mx-auto p-4 pt-20 max-w-4xl">
