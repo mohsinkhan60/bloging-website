@@ -37,7 +37,7 @@ export const ArticalCard = ({ article }) => {
           </h3>
           <p className="text-gray-600 mb-4">{article.description}</p>
           <div className="flex justify-between items-center text-sm text-gray-500">
-            <span>{article.date}</span>
+            <span>{new Date(article.date).toLocaleDateString()}</span>
             <span>{article.readTime}</span>
           </div>
         </div>
