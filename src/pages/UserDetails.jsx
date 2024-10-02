@@ -15,7 +15,7 @@ export const UserDetails = () => {
 
   useEffect(() => {
     if (data) {
-      const imgURL = data.imageURL;
+      const imgURL = data.image || data.imageURL;
       getImageURL(imgURL).then((url) => setURL(url));
     }
   }, [data]);
@@ -32,16 +32,16 @@ export const UserDetails = () => {
   if (data == null) return <h1 className="pt-30 tx-[5rem]">Loading ...</h1>;
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 pt-32 pb-20">
+    <div className="container mx-auto px-6 pt-20 md:pt-32 pb-20">
       <div className="flex flex-col items-center gap-8">
-        <div className="md:w-1/2">
+        <div className="xl:w-1/2">
           <img src={url} className="w-full object-cover max-h-[28rem]" alt="" />
         </div>
 
-        <div className="md:w-1/2">
-          <div className="flex items-start justify-between gap-5">
-            <h1 className="text-3xl font-bold mb-4">{data.title}</h1>
-            <div className="flex items-center cursor-pointer gap-2">
+        <div className="w-full xl:w-1/2">
+          <div className="flex items-start flex-col sm:flex-row justify-between gap-3 sm:gap-5">
+            <h1 className="text-xl md:text-3xl font-bold mb-4">{data.title}</h1>
+            <div className="flex items-center cursor-pointer gap-2 ml-auto">
               <Link to={`/edit-blog/${param?.id}`}>
                 <PencilLineIcon />
               </Link>
@@ -49,7 +49,7 @@ export const UserDetails = () => {
             </div>
           </div>
 
-          <div className="flex items-center mb-4">
+          <div className="flex items-center mt-4 sm:mt-0 mb-4">
             <span className="ml-2 text-gray-600">{data.author}</span>
           </div>
           <p className="text-gray-600 mb-6">{data.description}</p>

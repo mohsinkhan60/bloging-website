@@ -6,13 +6,13 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import firebase, {
   db,
+  getImageURL,
   handleCreateListing,
   storage,
   updateBlogPost,
   updateUserData,
 } from "../../firebase";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const AddBlog = () => {
   const navigate = useNavigate();
@@ -33,9 +33,13 @@ const AddBlog = () => {
     const getBlogDetails = async () => {
       const response = await updateUserData(id);
 
+      const url = await getImageURL(response?.image || response.imageURL).then(
+        (url) => url
+      );
+
       setFormData({
         ...formData,
-        // image: response?.imageURL || "",
+        image: url || response?.image || response?.imageURL || "",
         title: response?.title || "",
         author: response?.author || "",
         description: response?.description || "",
@@ -90,30 +94,29 @@ const AddBlog = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    const { image, title, author, description, category, tags, content, date } = formData;
-  
-    const updatedData = {
-      title,
-      author,
-      description,
-      category,
-      tags,
-      content,
-      date: Date.now(),
-    };
-    await updateBlogPost(id, updatedData);
+
+    await updateBlogPost(id, formData);
     navigate("/");
   };
-  
 
   return (
     <div className="container mx-auto p-4 pt-20 max-w-4xl">
       <h1 className="text-3xl font-bold mb-6">Add New Blog Post</h1>
       <form onSubmit={id ? handleEdit : handleSubmit} className="space-y-6">
-        <div className="flex items-center justify-center bg-white p-4">
+        <div className="flex items-center justify-center bg-white p-4 relative w-80 max-w-md h-64 mx-auto">
+          <input
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+            className="absolute inset-0 opacity-0 z-10"
+          />
           {formData.image ? (
             <img
-              src={URL.createObjectURL(formData?.image)}
+              src={
+                typeof formData?.image === "object"
+                  ? URL.createObjectURL(formData?.image)
+                  : formData?.image
+              }
               alt="Uploaded Preview"
               className="w-80 max-w-md h-64 object-cover p-2 border "
             />
@@ -121,12 +124,6 @@ const AddBlog = () => {
             <div
               className={`w-80 max-w-md h-64 border-2 border-dashed rounded-lg p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-colors relative`}
             >
-              <input
-                type="file"
-                name="image"
-                onChange={handleImageChange}
-                className="absolute inset-0 opacity-0"
-              />
               <UploadCloudIcon className="size-8" />
               <p className="text-lg font-semibold text-gray-700 mb-2">
                 Drag your image here, or Browse

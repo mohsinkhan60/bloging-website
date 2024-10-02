@@ -147,8 +147,18 @@ export const updateUserData = async (uid) => {
 
 export const updateBlogPost = async (id, updatedData) => {
   try {
-    const blogRef = doc(db, "user", id); 
-    await updateDoc(blogRef, updatedData);
+    const imageRef = ref(
+      storage,
+      `uploads/images/${Date.now()}-${updatedData?.image.name}`
+    );
+    const uploadResults = await uploadBytes(imageRef, updatedData?.image);
+    const imageURL = await getDownloadURL(uploadResults.ref);
+    const blogRef = doc(db, "user", id);
+    await updateDoc(blogRef, {
+      ...updatedData,
+      image: uploadResults.ref.fullPath,
+    });
+    console.log(imageURL);
   } catch (error) {
     console.error(error);
   }
