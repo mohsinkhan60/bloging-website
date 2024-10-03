@@ -22,7 +22,7 @@ export const Login = () => {
   };
 
   return (
-    <section className="h-full bg-neutral-200 dark:bg-neutral-700">
+    <section className="h-screen bg-neutral-50 flex items-center justify-center dark:bg-neutral-700">
       <div className="container h-full p-10">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
           <div className="w-full">
