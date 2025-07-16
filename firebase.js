@@ -67,6 +67,7 @@ export const logout = async () => {
 
 // Function to handle creating a listing
 export const handleCreateListing = async (
+  userId,
   image,
   title,
   author,
@@ -80,6 +81,7 @@ export const handleCreateListing = async (
     const imageRef = ref(storage, `uploads/images/${Date.now()}-${image.name}`);
     const uploadResults = await uploadBytes(imageRef, image);
     await addDoc(collection(db, "user"), {
+      userId,
       title,
       author,
       description,
@@ -138,18 +140,30 @@ export const updateUserData = async (uid) => {
 
 export const updateBlogPost = async (id, updatedData) => {
   try {
-    const imageRef = ref(
-      storage,
-      `uploads/images/${Date.now()}-${updatedData?.image.name}`
-    );
-    const uploadResults = await uploadBytes(imageRef, updatedData?.image);
     const blogRef = doc(db, "user", id);
-    await updateDoc(blogRef, {
-      ...updatedData,
-      image: uploadResults.ref.fullPath,
-    });
+
+    // Check if image is a new file upload or existing URL/path
+    if (
+      updatedData?.image &&
+      typeof updatedData.image === "object" &&
+      updatedData.image.name
+    ) {
+      // New image file uploaded, upload it to storage
+      const imageRef = ref(
+        storage,
+        `uploads/images/${Date.now()}-${updatedData.image.name}`
+      );
+      const uploadResults = await uploadBytes(imageRef, updatedData.image);
+      await updateDoc(blogRef, {
+        ...updatedData,
+        image: uploadResults.ref.fullPath,
+      });
+    } else {
+      // Existing image path/URL or no image change, update without uploading
+      await updateDoc(blogRef, updatedData);
+    }
   } catch (error) {
-    console.error(error);
+    console.error("Error updating blog post:", error);
   }
 };
 

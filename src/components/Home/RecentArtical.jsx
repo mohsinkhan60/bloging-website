@@ -8,13 +8,17 @@ export const RecentArticle = () => {
 
   useEffect(() => {
     const getRecentBlogs = async () => {
-      const q = query(collection(db, "user"), orderBy("date"), limit(6));
-      const querySnapshot = await getDocs(q);
-      const items = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setRecentBlogs(items);
+      try {
+        const q = query(collection(db, "user"), orderBy("date"), limit(6));
+        const querySnapshot = await getDocs(q);
+        const items = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setRecentBlogs(items);
+      } catch (error) {
+        console.error("Error fetching recent blogs:", error);
+      }
     };
 
     getRecentBlogs();

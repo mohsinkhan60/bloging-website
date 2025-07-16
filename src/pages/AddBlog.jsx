@@ -18,6 +18,8 @@ import { useNavigate, useParams } from "react-router-dom";
 const AddBlog = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [originalImagePath, setOriginalImagePath] = useState(""); // Store original image path
+  const [imageChanged, setImageChanged] = useState(false); // Track if image was changed
 
   const [formData, setFormData] = useState({
     image: "",
@@ -32,14 +34,18 @@ const AddBlog = () => {
 
   useEffect(() => {
     const getBlogDetails = async () => {
+      if (!id) return; // Only run if we have an id (editing mode)
+
       const response = await updateUserData(id);
+
+      // Store the original image path for updates
+      setOriginalImagePath(response?.image || response?.imageURL || "");
 
       const url = await getImageURL(response?.image || response.imageURL).then(
         (url) => url
       );
 
       setFormData({
-        ...formData,
         image: url || response?.image || response?.imageURL || "",
         title: response?.title || "",
         author: response?.author || "",
@@ -47,12 +53,12 @@ const AddBlog = () => {
         category: response?.category || "",
         tags: response?.tags || "",
         content: response?.content || "",
-        date: Date.now(),
+        date: response?.date || Date.now(),
       });
     };
     getBlogDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, setFormData]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,7 +69,11 @@ const AddBlog = () => {
   };
 
   const handleImageChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, image: file });
+      setImageChanged(true); // Mark that image has been changed
+    }
   };
 
   const handleContentChange = (value) => {
@@ -81,6 +91,7 @@ const AddBlog = () => {
       return;
     }
     await handleCreateListing(
+      auth.currentUser?.uid,
       image,
       title,
       author,
@@ -96,7 +107,16 @@ const AddBlog = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
 
-    await updateBlogPost(id, formData);
+    // Prepare the data for update
+    const updateData = { ...formData };
+
+    // If image hasn't been changed, use the original image path
+    if (!imageChanged) {
+      updateData.image = originalImagePath;
+    }
+    // If image was changed, it will be a File object and will be handled by updateBlogPost
+
+    await updateBlogPost(id, updateData);
     navigate("/");
   };
 
@@ -243,13 +263,7 @@ const AddBlog = () => {
         <div>
           <button
             type="button"
-            onClick={
-              auth.currentUser?.uid !== import.meta.env.VITE_ADMIN
-                ? () => alert("Feature is disabled in demo")
-                : id
-                ? handleEdit
-                : handleSubmit
-            }
+            onClick={id ? handleEdit : handleSubmit}
             className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             <FaPlus className="mr-2" />

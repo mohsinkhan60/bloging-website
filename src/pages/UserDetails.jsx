@@ -42,18 +42,14 @@ export const UserDetails = () => {
           <div className="flex items-start flex-col sm:flex-row justify-between gap-3 sm:gap-5">
             <h1 className="text-xl md:text-3xl font-bold mb-4">{data.title}</h1>
 
-            <div className="flex items-center cursor-pointer gap-2 ml-auto">
-              <Link to={`/edit-blog/${param?.id}`}>
-                <PencilLineIcon />
-              </Link>
-              <Trash2Icon
-                onClick={
-                  auth.currentUser?.uid !== import.meta.env.VITE_ADMIN
-                    ? () => alert("Feature is disabled in demo")
-                    : handleDelete
-                }
-              />
-            </div>
+            {auth.currentUser?.uid === data.userId && (
+              <div className="flex items-center cursor-pointer gap-2 ml-auto">
+                <Link to={`/edit-blog/${param?.id}`}>
+                  <PencilLineIcon />
+                </Link>
+                <Trash2Icon onClick={handleDelete} />
+              </div>
+            )}
           </div>
 
           <div className="flex items-center mt-4 sm:mt-0 mb-4">
