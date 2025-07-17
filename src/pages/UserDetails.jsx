@@ -2,6 +2,7 @@ import { PencilLineIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { auth, deleteUserData, getImageURL, getUserById } from "../../firebase";
+import { toast } from "react-toastify";
 
 export const UserDetails = () => {
   const param = useParams();
@@ -21,11 +22,18 @@ export const UserDetails = () => {
   }, [data]);
 
   const handleDelete = async () => {
+    const loading = toast.loading("Deleting your blog post...");
     try {
+
       await deleteUserData(param.id);
+      toast.success("Blog post deleted successfully!");
       navigate("/");
     } catch (error) {
       console.error("Error deleting user:", error);
+      toast.error("Failed to delete blog post. Please try again.");
+    }finally{
+      toast.dismiss(loading);
+      toast.success("Blog post deleted successfully!");
     }
   };
 
