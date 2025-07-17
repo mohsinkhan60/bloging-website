@@ -33,7 +33,6 @@ export const UserDetails = () => {
       toast.error("Failed to delete blog post. Please try again.");
     }finally{
       toast.dismiss(loading);
-      toast.success("Blog post deleted successfully!");
     }
   };
 
