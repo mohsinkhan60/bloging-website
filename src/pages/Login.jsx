@@ -10,6 +10,7 @@ export const Login = () => {
   const [password, setPassword] = useState("123456");
 
   const user_auth = async (e) => {
+    const loading = toast.loading("Loading...");
     e.preventDefault();
 
     try {
@@ -23,6 +24,13 @@ export const Login = () => {
     } catch (error) {
       console.error(error);
       toast.error(error.message || "Something went wrong!");
+    }finally{
+      toast.dismiss(loading);
+      setEmail("");
+      setPassword("");
+      if (signState === "Register") {
+        setName("");
+      }
     }
   };
 
@@ -137,8 +145,6 @@ export const Login = () => {
         </div>
       </div>
 
-      {/* Toast notifications container */}
-      {/* <ToastContainer position="top-right" autoClose={3000} /> */}
     </section>
   );
 };

@@ -19,6 +19,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { toast } from "react-toastify";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -59,8 +60,10 @@ export const login = async (email, password) => {
 // User logout function
 export const logout = async () => {
   try {
+    toast.success("Logout successful!");
     await signOut(auth);
   } catch (error) {
+    toast.error("Error during logout: " + error.message);
     console.log("Error during sign out...");
   }
 };
