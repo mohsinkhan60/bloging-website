@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { login, signup } from "../../firebase";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Login = () => {
   const [signState, setSignState] = useState("Login");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("demo@gmail.com" || "");
-  const [password, setPassword] = useState("123456" || "");
+  const [email, setEmail] = useState("demo@gmail.com");
+  const [password, setPassword] = useState("123456");
 
   const user_auth = async (e) => {
     e.preventDefault();
@@ -13,11 +15,14 @@ export const Login = () => {
     try {
       if (signState === "Login") {
         await login(email, password);
+        toast.success("Login successful!");
       } else {
         await signup(name, email, password);
+        toast.success("Registration successful!");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error(error.message || "Something went wrong!");
     }
   };
 
@@ -86,7 +91,7 @@ export const Login = () => {
                             background:
                               "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
                           }}
-                          type="submit" // Change to 'submit' for form submission
+                          type="submit"
                         >
                           {signState}
                         </button>
@@ -100,7 +105,7 @@ export const Login = () => {
                             : "Already have an account?"}
                         </p>
                         <button
-                          type="button" // Change to button to avoid form submission on toggle
+                          type="button"
                           onClick={() =>
                             setSignState(
                               signState === "Login" ? "Register" : "Login"
@@ -122,6 +127,8 @@ export const Login = () => {
                   className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
                   style={{
                     background: "url('/HomePic/Recent5.webp')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
                   }}
                 ></div>
               </div>
@@ -129,6 +136,9 @@ export const Login = () => {
           </div>
         </div>
       </div>
+
+      {/* Toast notifications container */}
+      {/* <ToastContainer position="top-right" autoClose={3000} /> */}
     </section>
   );
 };

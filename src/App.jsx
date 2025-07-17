@@ -8,10 +8,12 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import UserDetails from "./pages/UserDetails";
 import AllBlogs from "./pages/AllBlogs";
+import { ToastContainer } from "react-toastify";
 
 export const App = () => {
   return (
     <BrowserRouter>
+      <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         {/* Root Routes */}
         <Route path="/" element={<RootLayout />}>
