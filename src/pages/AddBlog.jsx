@@ -10,7 +10,6 @@ import firebase, {
   db,
   getImageURL,
   handleCreateListing,
-  storage,
   updateBlogPost,
   updateUserData,
 } from "../../firebase";
