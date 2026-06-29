@@ -1,20 +1,24 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 
 export const LoginLayout = () => {
   const navigate = useNavigate();
+  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         navigate("/");
       } else {
-        navigate("/login");
+        setChecking(false);
       }
     });
+    return () => unsubscribe();
   }, [navigate]);
+
+  if (checking) return null;
 
   return <Outlet />;
 };

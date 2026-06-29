@@ -10,25 +10,35 @@ export const Home = () => {
       <RecentArtical />
       <PopularSection />
 
-      <div className="container mx-auto px-6 sm:px-10 lg:px-20 my-20">
-        <div className="container mx-auto my-20">
-          <div className="bg-gradient-to-r rounded-2xl from-blue-600 via-blue-700 to-indigo-800 p-8 pt-12 md:pt-16 md:p-12 text-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-4">
-              <span className="block">28k People Receive Weekly</span>
-              <span className="block">WordPress Related Newsletter.</span>
-            </h2>
-            <button
-              className="mt-6 px-6 py-3 bg-coral-400 hover:bg-coral-500 bg-orange-500 text-white font-semibold rounded-full transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-coral-300 focus:ring-opacity-50 text-xs md:text-base xl:text-base"
-              aria-label="Subscribe to newsletter"
-            >
-              Subscribe Now
-            </button>
-          </div>
+      {/* Newsletter CTA */}
+      <section className="bg-ink">
+        <div className="max-w-container mx-auto px-6 lg:px-12 py-20 text-center">
+          <span className="inline-block font-mono text-[11px] uppercase tracking-widest text-ash border border-hairline-soft px-4 py-1.5 rounded-full mb-8">
+            Stay in the Loop
+          </span>
+          <h2
+            className="text-on-primary font-normal mb-5"
+            style={{ fontSize: 'clamp(28px, 4vw, 48px)', letterSpacing: '-1.68px', lineHeight: '1.08' }}
+          >
+            28k People Receive Our
+            <br />
+            Weekly Newsletter.
+          </h2>
+          <p className="text-ash text-[16px] max-w-md mx-auto mb-10">
+            Curated articles on writing, technology and ideas. Delivered every week.
+          </p>
+          <a
+            href="#"
+            className="inline-flex items-center bg-canvas-light text-ink text-[15px] font-medium px-8 h-11 rounded-full hover:bg-canvas-paper transition-colors"
+          >
+            Subscribe Now
+          </a>
         </div>
-      </div>
+      </section>
 
       <Special />
     </div>
   );
 };
+
 export default Home;

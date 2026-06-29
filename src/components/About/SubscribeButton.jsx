@@ -1,44 +1,49 @@
-
+import { useState } from "react";
 
 export const SubscribeButton = () => {
+  const [email, setEmail] = useState("");
+
   const handleSubmit = (e) => {
-    e.preventDefault()
-    alert('Form submitted')
-  }
+    e.preventDefault();
+    setEmail("");
+  };
 
   return (
-   <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8 container mx-auto">
-    <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
-      <div className="flex flex-col md:flex-row items-center justify-between">
-        <div className="mb-4 md:mb-0 md:mr-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">Subscribe For</h2>
-          <h2 className="text-3xl font-bold text-gray-800">Newsletter</h2>
-          <div className="hidden md:block mt-4">
-            <img src="/AboutPic/Sub1.webp" alt="" />
-          </div>
-        </div>
-        <form onSubmit={handleSubmit} className="w-full md:w-auto">
-          <div className="flex flex-col md:flex-row items-center">
+    <section className="bg-canvas-paper py-24">
+      <div className="max-w-container mx-auto px-6 lg:px-12">
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="font-mono text-[13px] text-mute mb-4 tracking-wide uppercase">Newsletter</p>
+          <h2
+            className="text-ink font-normal mb-4"
+            style={{ fontSize: 'clamp(32px, 4vw, 48px)', letterSpacing: '-1.68px', lineHeight: '1.08' }}
+          >
+            Subscribe for
+            <br />
+            Our Newsletter
+          </h2>
+          <p className="text-slate text-[16px] mb-10">
+            Get the best articles delivered straight to your inbox every week.
+          </p>
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full md:w-64 px-4 py-2 mb-4 md:mb-0 md:mr-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
+              className="flex-1 px-4 py-3 bg-canvas-light border border-hairline rounded-app-xs text-ink placeholder-mute text-[15px] focus:outline-none focus:ring-2 focus:ring-ink focus:border-transparent transition-colors"
             />
             <button
               type="submit"
-              className="w-full md:w-auto px-6 py-2 bg-orange-300 text-white font-semibold rounded-md hover:bg-orange-400 transition duration-300 ease-in-out"
+              className="bg-ink text-on-primary text-[15px] font-medium px-6 py-3 rounded-full hover:bg-graphite transition-colors whitespace-nowrap"
             >
               Subscribe Now
             </button>
-          </div>
-        </form>
-        <div className="hidden md:block ml-8">
-          <img src="/AboutPic/Sub2.webp" alt="" />
+          </form>
         </div>
       </div>
-    </div>
-    </div>
-  )
-}
-export default SubscribeButton
+    </section>
+  );
+};
+
+export default SubscribeButton;

@@ -50,22 +50,14 @@ const uploadToCloudinary = async (file) => {
 
 // User signup function
 export const signup = async (name, email, password) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
+  const res = await createUserWithEmailAndPassword(auth, email, password);
+  return res;
 };
 
 // User login function
 export const login = async (email, password) => {
-  try {
-    const response = await signInWithEmailAndPassword(auth, email, password);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await signInWithEmailAndPassword(auth, email, password);
+  return response;
 };
 
 // User logout function

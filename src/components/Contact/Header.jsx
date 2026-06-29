@@ -1,81 +1,55 @@
 /* eslint-disable react/prop-types */
+import { Phone, Mail, MapPin } from 'lucide-react';
 
-import { FaLinkedin } from "react-icons/fa";
-import { FaSkype } from "react-icons/fa";
-import { Phone, Mail, MapPin, Facebook, Twitter } from 'lucide-react'
-
-const ContactCard = ({ phone, email, address }) => (
-
-  <div className="bg-white rounded-2xl border hover:border-[#ffc4a0] p-6 m-4">
-    <div className="space-y-4">
-      <div className="flex items-center space-x-3">
-        <div className="bg-gray-100 p-2 rounded-full">
-          <Phone className="w-5 h-5 text-gray-600" />
+const ContactCard = ({ phone, email, address, featured }) => (
+  <div className={`rounded-marketing p-8 border ${featured ? 'bg-canvas-light' : 'bg-canvas-light border-hairline'}`}>
+    <div className="space-y-4 mb-6">
+      {[
+        { Icon: Phone, value: phone },
+        { Icon: Mail, value: email },
+        { Icon: MapPin, value: address },
+      ].map(({ Icon, value }) => (
+        <div key={value} className="flex items-start gap-3">
+          <div className={`p-2 rounded-app-md flex-shrink-0 ${featured ? 'bg-ink/20' : 'bg-canvas-paper'}`}>
+            <Icon className={`w-4 h-4 ${featured ? 'text-ink' : 'text-slate'}`} />
+          </div>
+          <span className={`text-[15px] leading-snug ${featured ? 'text-ink' : 'text-slate'}`}>{value}</span>
         </div>
-        <span className="text-gray-700">{phone}</span>
-      </div>
-      <div className="flex items-center space-x-3">
-        <div className="bg-gray-100 p-2 rounded-full">
-          <Mail className="w-5 h-5 text-gray-600" />
-        </div>
-        <span className="text-gray-700">{email}</span>
-      </div>
-      <div className="flex items-center space-x-3">
-        <div className="bg-gray-100 p-2 rounded-full">
-          <MapPin className="w-5 h-5 text-gray-600" />
-        </div>
-        <span className="text-gray-700">{address}</span>
-      </div>
+      ))}
     </div>
-    <div className="mt-6">
-      <h3 className="text-lg font-semibold mb-3">Connect With Us:</h3>
-      <div className="flex space-x-3">
-        <a href="#" className="bg-gray-100 p-2 rounded-lg hover:bg-[#ffc4a0]  text-gray-600 hover:text-white transition-colors">
-          <Facebook className="w-5 h-5" />
-        </a>
-        <a href="#" className="bg-gray-100 p-2 rounded-lg hover:bg-[#ffc4a0] text-gray-600 hover:text-white transition-colors">
-          <FaSkype className="w-5 h-5 " />
-        </a>
-        <a href="#" className="bg-gray-100 p-2 rounded-lg hover:bg-[#ffc4a0] text-gray-600 hover:text-white transition-colors">
-          <Twitter className="w-5 h-5" />
-        </a>
-        <a href="#" className="bg-gray-100 p-2 rounded-lg hover:bg-[#ffc4a0] text-gray-600 hover:text-white transition-colors">
-          <FaLinkedin className="w-5 h-5" />
-        </a>
-      </div>
-    </div>
+    <p className={`font-mono text-[11px] uppercase tracking-widest ${featured ? 'text-ink/60' : 'text-mute'}`}>
+      {featured ? 'Main Office' : 'Branch Office'}
+    </p>
   </div>
-)
+);
 
 export const Header = () => {
   const contactInfo = [
-    {
-      phone: "(00) 111 222 1111",
-      email: "infoofbunzon@gmial.com",
-      address: "845 Central Ave Hamilton, Ohio(OH), 45011"
-    },
-    {
-      phone: "(00) 111 222 2222",
-      email: "infoofbunzon@gmial.com",
-      address: "845 Central Ave Hamilton, Ohio(OH), 45011"
-    },
-    {
-      phone: "(00) 111 222 3333",
-      email: "infoofbunzon@gmial.com",
-      address: "845 Central Ave Hamilton, Ohio(OH), 45011"
-    }
-  ]
+    { phone: "(00) 111 222 1111", email: "info@bunzo.com", address: "845 Central Ave Hamilton, Ohio (OH), 45011", featured: false },
+    { phone: "(00) 111 222 2222", email: "press@bunzo.com", address: "845 Central Ave Hamilton, Ohio (OH), 45011", featured: true },
+    { phone: "(00) 111 222 3333", email: "support@bunzo.com", address: "845 Central Ave Hamilton, Ohio (OH), 45011", featured: false },
+  ];
 
   return (
-    <div className="container mx-auto px-4 sm:px-10 lg:px-20 my-20">
-      <div className="flex flex-wrap -mx-4 justify-center">
-        {contactInfo.map((info, index) => (
-          <div key={index} className="w-full sm:w-1/2 lg:w-1/3 px-4 mb-8">
-            <ContactCard {...info} />
-          </div>
-        ))}
+    <section className="bg-canvas-paper pt-32 pb-24">
+      <div className="max-w-container mx-auto px-6 lg:px-12">
+        <p className="font-mono text-[13px] text-mute mb-4 tracking-wide uppercase">Get in Touch</p>
+        <h1
+          className="text-ink font-normal mb-16"
+          style={{ fontSize: 'clamp(38px, 5vw, 72px)', letterSpacing: '-2px', lineHeight: '1.05' }}
+        >
+          We would love
+          <br />
+          to hear from you.
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {contactInfo.map((info, i) => (
+            <ContactCard key={i} {...info} />
+          ))}
+        </div>
       </div>
-    </div>
-  )
-}
-export default Header
+    </section>
+  );
+};
+
+export default Header;

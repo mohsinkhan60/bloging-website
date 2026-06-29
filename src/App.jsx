@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginLayout from "./layouts/LoginLayout";
 import RootLayout from "./layouts/RootLayout";
+import ProtectedRoute from "./layouts/ProtectedRoute";
 import About from "./pages/About";
 import AddBlog from "./pages/AddBlog";
 import Contact from "./pages/Contact";
@@ -15,20 +16,24 @@ export const App = () => {
     <BrowserRouter>
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
-        {/* Root Routes */}
+        {/* Public routes */}
         <Route path="/" element={<RootLayout />}>
           <Route index={true} element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="add-blog" element={<AddBlog />} />
-          <Route path="edit-blog/:id" element={<AddBlog />} />
           <Route path="blog/details/:id" element={<UserDetails />} />
           <Route path="all-blogs" element={<AllBlogs />} />
+
+          {/* Auth-required routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="add-blog" element={<AddBlog />} />
+            <Route path="edit-blog/:id" element={<AddBlog />} />
+          </Route>
         </Route>
 
-        {/* Login */}
+        {/* Login — redirects away if already logged in */}
         <Route path="/" element={<LoginLayout />}>
-          <Route path="login" index={true} element={<Login />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter>
