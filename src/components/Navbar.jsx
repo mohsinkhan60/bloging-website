@@ -28,7 +28,7 @@ export const Navbar = () => {
 
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
-            <Logo size="sm" dark={false} />
+            <Logo size="lg" dark={false} />
           </Link>
 
           {/* Desktop nav links */}

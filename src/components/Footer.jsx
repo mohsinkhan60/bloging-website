@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGithub } from "react-icons/fa";
+import Logo from "./ui/Logo";
 
 const FooterColumn = ({ heading, links }) => (
   <div>
@@ -26,55 +27,57 @@ export const Footer = () => {
     <footer className="bg-canvas border-t border-hairline-soft">
       <div className="max-w-container mx-auto px-6 lg:px-12 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
-
           {/* Brand + description */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-5">
-              <img src="/HomePic/nav.webp" alt="Bunzo" className="h-9 w-auto object-contain" />
+              <Logo size="lg" dark />
             </Link>
             <p className="text-ash text-[14px] leading-relaxed mb-6 max-w-xs">
-              A content platform built for people who love to read and write. Publish ideas that matter.
+              A content platform built for people who love to read and write.
+              Publish ideas that matter.
             </p>
             <div className="flex gap-3">
-              {[FaFacebookF, FaTwitter, FaLinkedinIn, FaGithub].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="bg-canvas-soft border border-hairline-soft p-2 rounded-app-md text-mute hover:text-on-primary hover:border-ash transition-colors"
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
+              {[FaFacebookF, FaTwitter, FaLinkedinIn, FaGithub].map(
+                (Icon, i) => (
+                  <a
+                    key={i}
+                    href="#"
+                    className="bg-canvas-soft border border-hairline-soft p-2 rounded-app-md text-mute hover:text-on-primary hover:border-ash transition-colors"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                ),
+              )}
             </div>
           </div>
 
           <FooterColumn
             heading="Company"
             links={[
-              { label: 'About Us', to: '/about' },
-              { label: 'Contact Us', to: '/contact' },
-              { label: 'All Blogs', to: '/all-blogs' },
-              { label: 'Write a Blog', to: '/add-blog' },
+              { label: "About Us", to: "/about" },
+              { label: "Contact Us", to: "/contact" },
+              { label: "All Blogs", to: "/all-blogs" },
+              { label: "Write a Blog", to: "/add-blog" },
             ]}
           />
 
           <FooterColumn
             heading="Resources"
             links={[
-              { label: 'Privacy Policy', to: '#' },
-              { label: 'Terms & Conditions', to: '#' },
-              { label: 'Customer Support', to: '#' },
-              { label: 'FAQ', to: '#' },
+              { label: "Privacy Policy", to: "#" },
+              { label: "Terms & Conditions", to: "#" },
+              { label: "Customer Support", to: "#" },
+              { label: "FAQ", to: "#" },
             ]}
           />
 
           <FooterColumn
             heading="Topics"
             links={[
-              { label: 'Technology', to: '#' },
-              { label: 'Education', to: '#' },
-              { label: 'Marketing', to: '#' },
-              { label: 'Lifestyle', to: '#' },
+              { label: "Technology", to: "#" },
+              { label: "Education", to: "#" },
+              { label: "Marketing", to: "#" },
+              { label: "Lifestyle", to: "#" },
             ]}
           />
         </div>
@@ -83,8 +86,8 @@ export const Footer = () => {
           <p className="text-mute text-[12px]">
             © {new Date().getFullYear()} Bunzo. All rights reserved.
           </p>
-          <Link to="/" className="flex items-center gap-2">
-            <img src="/HomePic/nav.webp" alt="Bunzo" className="h-7 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" />
+          <Link to="/" className="flex items-center gap-2 opacity-70">
+            <Logo size="md" dark />
           </Link>
         </div>
       </div>
