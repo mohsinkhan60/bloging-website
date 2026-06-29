@@ -18,7 +18,6 @@ import {
   orderBy,
   updateDoc,
 } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
 
 // Firebase configuration
@@ -35,7 +34,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const storage = getStorage(app);
+
+const uploadToCloudinary = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
+    { method: "POST", body: formData }
+  );
+  if (!response.ok) throw new Error("Cloudinary upload failed");
+  const data = await response.json();
+  return data.secure_url;
+};
 
 // User signup function
 export const signup = async (name, email, password) => {
@@ -81,8 +92,7 @@ export const handleCreateListing = async (
   date
 ) => {
   try {
-    const imageRef = ref(storage, `uploads/images/${Date.now()}-${image.name}`);
-    const uploadResults = await uploadBytes(imageRef, image);
+    const imageURL = await uploadToCloudinary(image);
     await addDoc(collection(db, "user"), {
       userId,
       title,
@@ -90,7 +100,7 @@ export const handleCreateListing = async (
       description,
       category,
       tags,
-      imageURL: uploadResults.ref.fullPath,
+      imageURL,
       content,
       date,
     });
@@ -107,9 +117,7 @@ export const getRecentBlogs = () => {
   return getDocs(collection(db, "user"), orderBy("date", "asc"), limit(6));
 };
 
-export const getImageURL = (path) => {
-  return getDownloadURL(ref(storage, path));
-};
+export const getImageURL = (url) => Promise.resolve(url);
 
 export const getUserById = async (id) => {
   const docRef = doc(db, "user", id);
@@ -151,15 +159,10 @@ export const updateBlogPost = async (id, updatedData) => {
       typeof updatedData.image === "object" &&
       updatedData.image.name
     ) {
-      // New image file uploaded, upload it to storage
-      const imageRef = ref(
-        storage,
-        `uploads/images/${Date.now()}-${updatedData.image.name}`
-      );
-      const uploadResults = await uploadBytes(imageRef, updatedData.image);
+      const imageURL = await uploadToCloudinary(updatedData.image);
       await updateDoc(blogRef, {
         ...updatedData,
-        image: uploadResults.ref.fullPath,
+        image: imageURL,
       });
     } else {
       // Existing image path/URL or no image change, update without uploading
