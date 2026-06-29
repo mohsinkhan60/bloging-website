@@ -1,168 +1,92 @@
-"use client";
-
-import { useState } from "react";
-import { FaFacebookF, FaSkype, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGithub } from "react-icons/fa";
+
+const FooterColumn = ({ heading, links }) => (
+  <div>
+    <p className="font-mono text-[11px] uppercase tracking-widest text-mute mb-4">
+      {heading}
+    </p>
+    <ul className="space-y-2.5">
+      {links.map(({ label, to }) => (
+        <li key={label}>
+          <Link
+            to={to}
+            className="text-ash hover:text-on-primary text-[13px] transition-colors"
+          >
+            {label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 export const Footer = () => {
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setEmail("");
-  };
-
   return (
-    <footer className="bg-[#22262A] text-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-        {/* Logo and Description */}
-        <div className="lg:col-span-2">
-          <h2 className="text-4xl font-bold mb-4">
-            <img src="/HomePic/nav.webp" alt="" />
-          </h2>
-          <p className="mb-6">
-            Lorem Ipsum is simply dummy text of the industry orem Ipsum has been
-            the industry since the when unknown.
-          </p>
-          <div className="flex space-x-4 mb-6">
-            <a
-              href="#"
-              className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700"
-            >
-              <FaFacebookF />
-            </a>
-            <a
-              href="#"
-              className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700"
-            >
-              <FaSkype />
-            </a>
-            <a
-              href="#"
-              className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700"
-            >
-              <FaTwitter />
-            </a>
-            <a
-              href="#"
-              className="bg-indigo-800 p-2 rounded-full hover:bg-indigo-700"
-            >
-              <FaLinkedinIn />
-            </a>
+    <footer className="bg-canvas border-t border-hairline-soft">
+      <div className="max-w-container mx-auto px-6 lg:px-12 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
+
+          {/* Brand + description */}
+          <div className="lg:col-span-2">
+            <Link to="/" className="flex items-center gap-2 mb-5">
+              <img src="/HomePic/nav.webp" alt="Bunzo" className="h-9 w-auto object-contain" />
+            </Link>
+            <p className="text-ash text-[14px] leading-relaxed mb-6 max-w-xs">
+              A content platform built for people who love to read and write. Publish ideas that matter.
+            </p>
+            <div className="flex gap-3">
+              {[FaFacebookF, FaTwitter, FaLinkedinIn, FaGithub].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="bg-canvas-soft border border-hairline-soft p-2 rounded-app-md text-mute hover:text-on-primary hover:border-ash transition-colors"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
           </div>
-          <button className="bg-coral-500 text-white px-6 py-2 rounded-full hover:bg-coral-600 transition duration-300">
-            Share your thinking
-          </button>
+
+          <FooterColumn
+            heading="Company"
+            links={[
+              { label: 'About Us', to: '/about' },
+              { label: 'Contact Us', to: '/contact' },
+              { label: 'All Blogs', to: '/all-blogs' },
+              { label: 'Write a Blog', to: '/add-blog' },
+            ]}
+          />
+
+          <FooterColumn
+            heading="Resources"
+            links={[
+              { label: 'Privacy Policy', to: '#' },
+              { label: 'Terms & Conditions', to: '#' },
+              { label: 'Customer Support', to: '#' },
+              { label: 'FAQ', to: '#' },
+            ]}
+          />
+
+          <FooterColumn
+            heading="Topics"
+            links={[
+              { label: 'Technology', to: '#' },
+              { label: 'Education', to: '#' },
+              { label: 'Marketing', to: '#' },
+              { label: 'Lifestyle', to: '#' },
+            ]}
+          />
         </div>
 
-        {/* Company */}
-        <div>
-          <h3 className="text-xl font-semibold mb-4">Company</h3>
-          <ul className="space-y-2">
-            {[
-              "About Us",
-              "Contact Us",
-              "Local Print Ads",
-              "FAQ's",
-              "Careers",
-            ].map((item) => (
-              <li key={item}>
-                <a
-                  href="#"
-                  className="hover:text-coral-500 transition duration-300"
-                >
-                  {item}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
-          <ul className="space-y-2">
-            {[
-              "Privacy Policy",
-              "Discussion",
-              "Terms & Conditions",
-              "Customer Support",
-              "Course FAQ's",
-            ].map((item) => (
-              <li key={item}>
-                <a
-                  href="#"
-                  className="hover:text-coral-500 transition duration-300"
-                >
-                  {item}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* category */}
-        <div>
-          <h3 className="text-xl font-semibold mb-4">Category</h3>
-          <ul className="space-y-2">
-            {[
-              "Life Style",
-              "Healthy",
-              "Resaurent",
-              "Travel Tips",
-              "Marketing",
-            ].map((item) => (
-              <li key={item}>
-                <a
-                  href="#"
-                  className="hover:text-coral-500 transition duration-300"
-                >
-                  {item}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Subscribe */}
-        <div className="lg:col-span-2">
-          <h3 className="text-xl font-semibold mb-4">Subscribe</h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full p-3 bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-coral-500"
-            />
-            <input
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-coral-500"
-            />
-            <button
-              type="submit"
-              className="w-full bg-orange-500 text-white px-6 py-3 rounded-md hover:bg-coral-600 transition duration-300"
-            >
-              Subscribe Now
-            </button>
-          </form>
-        </div>
-      </div>
-
-      {/* Copyright */}
-      <div className="mt-12 pt-8 border-indigo-800 text-center">
-        <hr className="mb-8" />
-        <p>
-          © copyright {new Date().getFullYear()}. Made with ❤️ by{" "}
-          <Link
-            to="https://github.com/mohsinkhan60"
-            target="_blank"
-            className="text-coral-500 hover:underline"
-          >
-            Mohsin Khan
+        <div className="mt-14 pt-8 border-t border-hairline-soft flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-mute text-[12px]">
+            © {new Date().getFullYear()} Bunzo. All rights reserved.
+          </p>
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/HomePic/nav.webp" alt="Bunzo" className="h-7 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" />
           </Link>
-        </p>
+        </div>
       </div>
     </footer>
   );

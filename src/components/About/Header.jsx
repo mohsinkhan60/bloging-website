@@ -1,82 +1,67 @@
-
 export const Header = () => {
+  const cards = [
+    {
+      icon: '/AboutPic/Header1.webp',
+      title: 'Open Platform',
+      body: 'Anyone can read, write, and contribute. Bunzo is an open content platform built to give voices room to be heard, from day one to day ten thousand.',
+    },
+    {
+      icon: '/AboutPic/Header2.webp',
+      title: 'Digital Publishing',
+      body: 'Rich editorial tools let writers publish with confidence. Format your ideas clearly, add images, and reach an audience that cares.',
+      image: '/AboutPic/Header3.webp',
+    },
+  ];
+
   return (
-    <div className="container mx-auto px-6 sm:px-10 lg:px-20 my-20">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Column 1: Open Platform */}
-        <div className="bg-[#FAFAFA] p-6 rounded-lg shadow-md md:col-span-1">
-          <div className="bg-peach-200 w-16 h-16 rounded-lg flex items-center justify-center mb-4">
-            <img
-              src="/AboutPic/Header1.webp"
-              className="bg-[#ffc4a0] p-2 rounded-lg"
-              alt="Open Platform icon"
-            />
-          </div>
-          <h2 className="text-2xl font-bold mb-4">Open Platform</h2>
-          <p className="text-gray-600 mb-4">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry has been the industry standard dummy text ever since the
-            1500s when an unknown printer took galley type and scrambled.
-          </p>
-          <p className="text-gray-600">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry has been the industry standard.
-          </p>
-        </div>
+    <section className="bg-canvas-paper pt-32 pb-24">
+      <div className="max-w-container mx-auto px-6 lg:px-12">
+        <p className="font-mono text-[13px] text-mute mb-4 tracking-wide uppercase">About Bunzo</p>
+        <h1
+          className="text-ink font-normal mb-16 max-w-3xl"
+          style={{ fontSize: 'clamp(38px, 5vw, 72px)', letterSpacing: '-2px', lineHeight: '1.05' }}
+        >
+          The platform for people who love to read and write.
+        </h1>
 
-        {/* Column 2: Digital Publishing with Image */}
-        <div className="bg-[#FAFAFA] p-6 rounded-lg shadow-md relative md:col-span-2 sm:flex flex-row grid grid-cols-1 md:grid-cols-3">
-          <div>
-            <div className="bg-peach-200 w-16 h-16 rounded-lg flex items-center justify-center mb-4">
-              <img
-                src="/AboutPic/Header2.webp"
-                className="bg-[#ffc4a0] p-2 rounded-lg"
-                alt="Digital Publishing icon"
-              />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Card 1 */}
+          <div className="bg-canvas-light rounded-marketing p-8 border border-hairline">
+            <div className="w-12 h-12 bg-canvas-paper rounded-app-lg flex items-center justify-center mb-6">
+              <img src={cards[0].icon} className="w-7 h-7 object-contain" alt={cards[0].title} />
             </div>
-            <h2 className="text-2xl font-bold mb-4">Digital Publishing</h2>
-            <p className="text-gray-600 mb-4">
-              Lorem Ipsum is simply dummy text of the printing and
-              <br /> typesetting industry has been the industry standard dummy
-              text ever
-              <br /> since the 1500s when an unknown printer took galley type
-              and scrambled.
-            </p>
-            <p className="text-gray-600 mb-4">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              <br />
-              industry has been the industry standard.
-            </p>
+            <h2 className="text-ink text-[24px] font-normal mb-4" style={{ letterSpacing: '-0.24px' }}>
+              {cards[0].title}
+            </h2>
+            <p className="text-slate text-[15px] leading-relaxed">{cards[0].body}</p>
           </div>
 
-          {/* Image Section integrated within the second column */}
-          <div className="mt-6 relative rounded-lg overflow-hidden">
-            <img
-              src="/AboutPic/Header3.webp"
-              className="w-full h-full object-cover"
-              alt="Person using a laptop"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-6">
-              <button className="bg-peach-400 bg-[#ffc4a0] text-black px-6 py-3 rounded-full hover:bg-peach-500 transition duration-300 flex items-center">
-                Share your thinking
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 ml-2"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+          {/* Card 2 — spans 2 cols */}
+          <div className="bg-canvas-light rounded-marketing border border-hairline md:col-span-2 grid md:grid-cols-2 overflow-hidden">
+            <div className="p-8">
+              <div className="w-12 h-12 bg-canvas-paper rounded-app-lg flex items-center justify-center mb-6">
+                <img src={cards[1].icon} className="w-7 h-7 object-contain" alt={cards[1].title} />
+              </div>
+              <h2 className="text-ink text-[24px] font-normal mb-4" style={{ letterSpacing: '-0.24px' }}>
+                {cards[1].title}
+              </h2>
+              <p className="text-slate text-[15px] leading-relaxed mb-6">{cards[1].body}</p>
+              <button className="text-ink hover:text-brand text-[15px] flex items-center gap-2 transition-colors">
+                Share your thinking <span aria-hidden>→</span>
               </button>
+            </div>
+            <div className="relative min-h-[280px]">
+              <img
+                src={cards[1].image}
+                alt="Person writing"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent" />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

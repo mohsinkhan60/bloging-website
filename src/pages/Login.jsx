@@ -1,151 +1,161 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 import { login, signup } from "../../firebase";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Logo from "../components/ui/Logo";
+
+const getAuthError = (code) => {
+  switch (code) {
+    case "auth/wrong-password":
+    case "auth/invalid-credential":
+      return "Incorrect email or password.";
+    case "auth/user-not-found":
+      return "No account found with this email.";
+    case "auth/email-already-in-use":
+      return "An account with this email already exists.";
+    case "auth/weak-password":
+      return "Password must be at least 6 characters.";
+    case "auth/invalid-email":
+      return "Please enter a valid email address.";
+    case "auth/too-many-requests":
+      return "Too many attempts. Please try again later.";
+    case "auth/network-request-failed":
+      return "Network error. Check your connection.";
+    default:
+      return "Something went wrong. Please try again.";
+  }
+};
 
 export const Login = () => {
   const [signState, setSignState] = useState("Login");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("demo@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [fieldError, setFieldError] = useState("");
+
+  const validate = () => {
+    if (signState === "Register" && !name.trim()) return "Full name is required.";
+    if (!email.trim()) return "Email address is required.";
+    if (!password) return "Password is required.";
+    if (signState === "Register" && password.length < 6) return "Password must be at least 6 characters.";
+    return null;
+  };
 
   const user_auth = async (e) => {
-    const loading = toast.loading("Loading...");
     e.preventDefault();
-
+    const validationError = validate();
+    if (validationError) { setFieldError(validationError); return; }
+    setFieldError("");
+    setIsLoading(true);
     try {
       if (signState === "Login") {
         await login(email, password);
-        toast.success("Login successful!");
+        toast.success("Welcome back!");
       } else {
         await signup(name, email, password);
-        toast.success("Registration successful!");
+        toast.success("Account created!");
       }
     } catch (error) {
-      console.error(error);
-      toast.error(error.message || "Something went wrong!");
-    }finally{
-      toast.dismiss(loading);
-      setEmail("");
-      setPassword("");
-      if (signState === "Register") {
-        setName("");
-      }
+      const msg = getAuthError(error.code);
+      setFieldError(msg);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const inputCls = "w-full px-4 py-3 bg-canvas-light border border-hairline rounded-app-xs text-ink placeholder-mute text-[15px] focus:outline-none focus:ring-2 focus:ring-ink focus:border-transparent transition-colors";
+
+  const switchState = () => {
+    setSignState(signState === "Login" ? "Register" : "Login");
+    setFieldError("");
+  };
+
   return (
-    <section className="h-screen bg-neutral-50 flex items-center justify-center dark:bg-neutral-700">
-      <div className="container h-full p-10">
-        <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
-          <div className="w-full">
-            <div className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
-              <div className="g-0 lg:flex lg:flex-wrap">
-                {/* Left column container */}
-                <div className="px-4 md:px-10 lg:w-6/12">
-                  <div className="md:mx-6 md:p-12">
-                    {/* Logo */}
-                    <div className="text-center">
-                      <img
-                        className="mx-auto w-48"
-                        src="/AboutPic/login1.webp"
-                        alt="logo"
-                      />
-                      <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                        We are The Lotus Team
-                      </h4>
-                    </div>
+    <div className="min-h-screen grid lg:grid-cols-2">
+      {/* Left — form panel */}
+      <div className="flex flex-col justify-between px-8 py-10 md:px-16 bg-canvas-light">
+        {/* Top — logo */}
+        <Link to="/" className="flex-shrink-0">
+          <Logo size="sm" dark={false} />
+        </Link>
 
-                    <form onSubmit={user_auth}>
-                      <p className="mb-4 text-center">{signState}</p>
+        {/* Center — form */}
+        <div className="w-full max-w-sm mx-auto py-16">
+          <p className="font-mono text-[11px] uppercase tracking-widest text-mute mb-3">
+            {signState === "Login" ? "Welcome back" : "Create account"}
+          </p>
+          <h1 className="text-ink font-normal mb-8" style={{ fontSize: "clamp(28px, 3vw, 36px)", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
+            {signState === "Login" ? "Sign in to Bunzo" : "Join Bunzo today"}
+          </h1>
 
-                      {/* Name input for Register only */}
-                      {signState === "Register" && (
-                        <input
-                          type="text"
-                          placeholder="Your name..."
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          className="mb-4 border p-2 w-full"
-                          required
-                        />
-                      )}
-
-                      {/* Email input */}
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter email..."
-                        className="mb-4 border p-2 w-full"
-                        required
-                      />
-
-                      {/* Password input */}
-                      <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter password..."
-                        className="mb-4 border p-2 w-full"
-                        required
-                      />
-
-                      {/* Submit button */}
-                      <div className="mb-12 pb-1 pt-1 text-center">
-                        <button
-                          className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out"
-                          style={{
-                            background:
-                              "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
-                          }}
-                          type="submit"
-                        >
-                          {signState}
-                        </button>
-                      </div>
-
-                      {/* Toggle between Login and Register */}
-                      <div className="flex items-center justify-between pb-6">
-                        <p className="mb-0 mr-2">
-                          {signState === "Login"
-                            ? "Don't have an account?"
-                            : "Already have an account?"}
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setSignState(
-                              signState === "Login" ? "Register" : "Login"
-                            )
-                          }
-                          className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs
-                             font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:bg-neutral-500
-                              hover:bg-opacity-10 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                        >
-                          {signState === "Login" ? "Register" : "Login"}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-
-                {/* Right column container with background */}
-                <div
-                  className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
-                  style={{
-                    background: "url('/HomePic/Recent5.webp')",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-              </div>
+          {/* Inline error banner */}
+          {fieldError && (
+            <div className="flex items-start gap-3 bg-error/8 border border-error/20 rounded-app-xs px-4 py-3 mb-5">
+              <svg className="w-4 h-4 text-error flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-5.25a.75.75 0 001.5 0v-4a.75.75 0 00-1.5 0v4zm.75-7a.75.75 0 100 1.5.75.75 0 000-1.5z" clipRule="evenodd"/>
+              </svg>
+              <p className="text-error text-[13px] leading-snug">{fieldError}</p>
             </div>
-          </div>
+          )}
+
+          <form onSubmit={user_auth} className="space-y-4" noValidate>
+            {signState === "Register" && (
+              <div>
+                <label className="block font-mono text-[11px] uppercase tracking-widest text-mute mb-1.5">Full Name</label>
+                <input type="text" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} className={inputCls} disabled={isLoading} />
+              </div>
+            )}
+            <div>
+              <label className="block font-mono text-[11px] uppercase tracking-widest text-mute mb-1.5">Email Address</label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className={inputCls} disabled={isLoading} />
+            </div>
+            <div>
+              <label className="block font-mono text-[11px] uppercase tracking-widest text-mute mb-1.5">Password</label>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" className={inputCls} disabled={isLoading} />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`w-full text-on-primary text-[15px] font-medium py-3 rounded-full transition-colors mt-2 inline-flex items-center justify-center gap-2 ${isLoading ? "bg-graphite cursor-not-allowed" : "bg-ink hover:bg-graphite"}`}
+            >
+              {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isLoading ? "Please wait..." : signState === "Login" ? "Sign In" : "Create Account"}
+            </button>
+          </form>
+
+          <p className="text-mute text-[14px] text-center mt-8">
+            {signState === "Login" ? "Don't have an account? " : "Already have an account? "}
+            <button type="button" onClick={switchState} className="text-ink font-medium underline underline-offset-2 hover:text-graphite transition-colors">
+              {signState === "Login" ? "Register" : "Sign in"}
+            </button>
+          </p>
         </div>
+
+        {/* Bottom — footer note */}
+        <p className="text-mute text-[12px]">
+          By continuing you agree to our{" "}
+          <span className="text-ink underline underline-offset-2 cursor-pointer">Terms</span>{" "}
+          and{" "}
+          <span className="text-ink underline underline-offset-2 cursor-pointer">Privacy Policy</span>.
+        </p>
       </div>
 
-    </section>
+      {/* Right — image panel */}
+      <div className="hidden lg:block relative overflow-hidden">
+        <img src="/HomePic/Recent1.webp" alt="A quiet reading space" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/10 to-transparent" />
+        <div className="absolute bottom-10 left-10 right-10">
+          <p className="text-on-primary font-normal mb-3" style={{ fontSize: "clamp(22px, 2.5vw, 32px)", letterSpacing: "-0.03em", lineHeight: "1.15" }}>
+            A space to read, write and share ideas that matter.
+          </p>
+          <p className="font-mono text-[11px] uppercase tracking-widest text-on-primary/60">Bunzo — Blogging Platform</p>
+        </div>
+      </div>
+    </div>
   );
 };
 

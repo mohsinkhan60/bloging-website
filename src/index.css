@@ -1,13 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply overflow-x-hidden;
+    @apply overflow-x-hidden bg-canvas-light text-ink font-sans;
+  }
+
+  li {
+    list-style: none;
   }
 }
 
-li {
-  list-style: disc;
+@layer components {
+  /* Blog post rich-text content rendered from ReactQuill */
+  .blog-content {
+    @apply text-[16px] leading-[1.8] text-slate;
+  }
+
+  .blog-content h1 {
+    @apply text-ink font-normal mt-12 mb-4;
+    font-size: clamp(28px, 3.5vw, 40px);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .blog-content h2 {
+    @apply text-ink font-normal mt-10 mb-4;
+    font-size: clamp(22px, 2.5vw, 30px);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .blog-content h3 {
+    @apply text-ink font-medium mt-8 mb-3;
+    font-size: clamp(18px, 2vw, 22px);
+    letter-spacing: -0.01em;
+  }
+
+  .blog-content h4,
+  .blog-content h5,
+  .blog-content h6 {
+    @apply text-ink font-medium mt-6 mb-2 text-[17px];
+  }
+
+  .blog-content p {
+    @apply mb-5;
+  }
+
+  .blog-content a {
+    @apply text-link-blue underline underline-offset-2 hover:text-link-blue-soft transition-colors;
+  }
+
+  .blog-content strong {
+    @apply font-semibold text-ink;
+  }
+
+  .blog-content em {
+    @apply italic;
+  }
+
+  /* Ordered and unordered lists */
+  .blog-content ul {
+    @apply mb-5 pl-6 space-y-1.5;
+    list-style: disc;
+  }
+
+  .blog-content ol {
+    @apply mb-5 pl-6 space-y-1.5;
+    list-style: decimal;
+  }
+
+  .blog-content li {
+    @apply text-slate leading-relaxed;
+    list-style: inherit;
+  }
+
+  /* Blockquote */
+  .blog-content blockquote {
+    @apply border-l-4 border-brand pl-5 my-8 italic text-graphite;
+  }
+
+  /* Inline code */
+  .blog-content code {
+    @apply font-mono text-[13.5px] bg-canvas-paper text-ink px-1.5 py-0.5 rounded-app-xs;
+  }
+
+  /* Code block (Quill outputs <pre class="ql-syntax">) */
+  .blog-content pre,
+  .blog-content pre.ql-syntax {
+    @apply font-mono text-[13.5px] bg-ink text-on-primary rounded-marketing px-6 py-5 my-6 overflow-x-auto leading-relaxed;
+    tab-size: 2;
+  }
+
+  /* Code inside pre should not have extra bg */
+  .blog-content pre code {
+    @apply bg-transparent p-0 text-inherit text-[13.5px];
+  }
+
+  /* Horizontal rule */
+  .blog-content hr {
+    @apply border-0 border-t border-hairline my-10;
+  }
+
+  /* Images inside content */
+  .blog-content img {
+    @apply rounded-marketing w-full my-8;
+  }
+
+  /* First element no top margin */
+  .blog-content > *:first-child {
+    @apply mt-0;
+  }
 }

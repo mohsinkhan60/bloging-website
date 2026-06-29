@@ -1,163 +1,147 @@
-/* eslint-disable react/prop-types */
-import { Bell, ChevronDown, Menu, User, X } from "lucide-react";
-import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { logout } from "../../firebase";
-
-const NavItem = ({ to, children, hasDropdown }) => (
-  <li className="relative group list-none">
-    <Link
-      to={to}
-      className="text-white hover:text-orange-300 flex items-center px-3 py-2"
-    >
-      {children}
-      {hasDropdown && (
-        <ChevronDown className="h-4 w-4 ml-1 text-white group-hover:text-orange-300" />
-      )}
-    </Link>
-  </li>
-);
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, logout } from "../../firebase";
+import Logo from "./ui/Logo";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [profile, setProfile] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => setUser(u));
+    return () => unsubscribe();
+  }, []);
+
+  const navLinks = [
+    ["/", "Home"],
+    ["/all-blogs", "All Blogs"],
+    ["/about", "About"],
+    ["/contact", "Contact"],
+  ];
 
   return (
-    <nav className="bg-gradient-to-r from-blue-900 to-purple-900 fixed top-0 w-full z-50">
-      <div className="container mx-auto px-6 sm:px-10 lg:px-20">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <span className="ml-2 text-white text-xl font-bold">
-                <img
-                  src="/AboutPic/login1.webp"
-                  className="w-20 h-20 object-cover"
-                  alt="Logo"
-                />
-              </span>
-            </Link>
-          </div>
-          <div className="hidden md:ml-6 md:flex md:items-center">
-            <div className="flex space-x-4">
-              <NavItem to="/">Home</NavItem>
-              <NavItem to="/all-blogs">All Blogs</NavItem>
-              <NavItem to="/about">About</NavItem>
-              <NavItem to="/contact">Contact</NavItem>
-            </div>
-          </div>
-          <div className="hidden md:ml-6 md:flex md:items-center relative">
-            <button className="p-1 rounded-full text-white hover:text-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-800 focus:ring-white">
-              <Bell className="h-6 w-6" />
-              <span className="sr-only">View notifications</span>
-            </button>
-            <div className="relative">
-              <button
-                onClick={() => setProfile(!profile)}
-                className="ml-3 p-1 rounded-full text-white hover:text-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-800 focus:ring-white"
-              >
-                <User className="h-6 w-6" />
-                <span className="sr-only">View profile</span>
-              </button>
+    <nav className="bg-canvas-light fixed top-0 w-full z-50 border-b border-hairline">
+      <div className="max-w-container mx-auto px-6 lg:px-12">
+        <div className="flex justify-between h-16 items-center">
 
-              {/* Profile Dropdown */}
-              {profile && (
-                <div className="absolute right-0 mt-2 w-40 py-2 bg-white rounded-lg shadow-lg text-black">
-                  <Link
-                    onClick={() => setProfile(!profile)}
-                    to="/add-blog"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100"
-                  >
-                    Add Blog
-                  </Link>
-                  <button
-                    className="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer w-full text-left"
-                    onClick={logout}
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0">
+            <Logo size="sm" dark={false} />
+          </Link>
+
+          {/* Desktop nav links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map(([to, label]) => (
+              <Link
+                key={to}
+                to={to}
+                className="text-slate hover:text-ink text-[15px] transition-colors duration-150"
+              >
+                {label}
+              </Link>
+            ))}
           </div>
-          <div className="-mr-2 flex items-center lg:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-orange-300 hover:focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-            >
-              <span className="sr-only">Open main menu</span>
-              {isOpen ? (
-                <X className="block h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Menu className="block h-6 w-6" aria-hidden="true" />
-              )}
-            </button>
+
+          {/* Desktop right cluster */}
+          <div className="hidden md:flex items-center gap-3">
+            {user ? (
+              <>
+                <Link
+                  to="/add-blog"
+                  className="text-slate hover:text-ink text-[15px] transition-colors px-3 py-2"
+                >
+                  Write a Blog
+                </Link>
+                <button
+                  onClick={() => logout()}
+                  className="bg-ink text-on-primary text-[15px] font-medium px-5 py-2.5 rounded-full hover:bg-graphite transition-colors leading-none"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="text-slate hover:text-ink text-[15px] transition-colors px-3 py-2"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/login"
+                  className="bg-ink text-on-primary text-[15px] font-medium px-5 py-2.5 rounded-full hover:bg-graphite transition-colors leading-none"
+                >
+                  Get Started Free
+                </Link>
+              </>
+            )}
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-slate hover:text-ink transition-colors"
+          >
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       {isOpen && (
-        <div className="lg:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <Link
-              to="/"
-              className="text-white hover:text-orange-300 block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Home
-            </Link>
-            <Link
-              to="/all-blogs"
-              className="text-white hover:text-orange-300 block px-3 py-2 rounded-md text-base font-medium"
-            >
-              All Blogs
-            </Link>
-            <Link
-              to="/about"
-              className="text-white hover:text-orange-300 block px-3 py-2 rounded-md text-base font-medium"
-            >
-              About
-            </Link>
-            <Link
-              to="/contact"
-              className="text-white hover:text-orange-300 block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Contact
-            </Link>
-          </div>
-          <div className="pt-4 pb-3 border-t border-blue-800">
-            <div className="flex items-center px-5">
-              <button className="p-1 rounded-full text-white hover:text-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-800 focus:ring-white">
-                <Bell className="h-6 w-6" />
-                <span className="sr-only">View notifications</span>
-              </button>
-              <button
-                onClick={() => setProfile(!profile)}
-                className="ml-auto p-1 rounded-full text-white hover:text-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-800 focus:ring-white relative"
+        <div className="md:hidden bg-canvas-light border-t border-hairline">
+          <div className="px-6 py-4 space-y-1">
+            {navLinks.map(([to, label]) => (
+              <Link
+                key={to}
+                to={to}
+                onClick={() => setIsOpen(false)}
+                className="block text-slate hover:text-ink py-2.5 text-[15px] transition-colors"
               >
-                <User className="h-6 w-6" />
-                <span className="sr-only">View profile</span>
-                {profile && (
-                  <div className="absolute right-0 mt-2 w-40 py-2 bg-white rounded-lg shadow-lg text-black">
-                    <button
-                      className="block px-4 py-2 text-sm hover:bg-gray-100"
-                      onClick={logout}
-                    >
-                      Logout
-                    </button>
-                    <Link
-                      to="/add-blog"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100"
-                    >
-                      Add Blog
-                    </Link>
-                  </div>
-                )}
-              </button>
+                {label}
+              </Link>
+            ))}
+            <div className="pt-4 border-t border-hairline space-y-1">
+              {user ? (
+                <>
+                  <Link
+                    to="/add-blog"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-slate hover:text-ink py-2 text-[14px] transition-colors"
+                  >
+                    Write a Blog
+                  </Link>
+                  <button
+                    onClick={() => { logout(); setIsOpen(false); }}
+                    className="block text-slate hover:text-ink py-2 text-[14px] transition-colors"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-slate hover:text-ink py-2 text-[14px] transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-slate hover:text-ink py-2 text-[14px] transition-colors"
+                  >
+                    Get Started Free
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
       )}
-      <hr />
     </nav>
   );
 };
